@@ -1,0 +1,199 @@
+
+
+
+
+MLS                                                              R. Mahy
+Internet-Draft                                              Unaffiliated
+Intended status: Informational                             16 March 2024
+Expires: 17 September 2024
+
+
+Messaging Layer Security Ciphersuite using XWing Key Exchange Mechanism
+                      draft-mahy-mls-xwing-latest
+
+Abstract
+
+   This document registers a new Messaging Layer Security (MLS)
+   ciphersuite using the X-Wing hybrid post-quantum resistant /
+   traditional (PQ/T) Key Exchange Mechanism (KEM).
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-mahy-mls-xwing/.
+
+   Discussion of this document takes place on the MLS Working Group
+   mailing list (mailto:mls@ietf.org), which is archived at
+   https://mailarchive.ietf.org/arch/browse/mls/.  Subscribe at
+   https://www.ietf.org/mailman/listinfo/mls/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/rohanmahy/mahy-mls-xwing/.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 17 September 2024.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Security Considerations
+   3.  IANA Considerations
+   4.  References
+     4.1.  Normative References
+     4.2.  Informative References
+   Acknowledgments
+   Author's Address
+
+1.  Introduction
+
+   The potential availability of a cryptographically-relevant quantum
+   computer has caused concern that well-funded adversaries could
+   overturn long-held assumptions about the security assurances of
+   classical Key Exchange Mechanisms (KEMs) and classical cryptographic
+   signatures, which are fundamental to modern security protocols,
+   including the MLS protocol [RFC9420].
+
+   The MLS Working Group has expressed strong desire to have a handful
+   of complimentary post-quantum security extensions for use with the
+   MLS protocol to address the related threats:
+
+   1.  A straightforward MLS cipher suite that replaces a classical KEM
+       with a hybrid post-quantum/traditional KEM.  Such a cipher suite
+       could be implemented as a drop-in replacement in many MLS
+       libraries without changes to any other part of the MLS stack.
+       The aim is for implementations to have a single KEM which would
+       be performant and work for the vast majority of implementations.
+       It addresses the the harvest-now / decrypt-later threat model
+       using the simplest, and most practicable solution available.
+
+   2.  Versions of existing cipher suites that use post-quantum
+       signatures; and specific guidelines on the construction, use, and
+       validation of hybrid signatures.
+
+   3.  One or more mechanisms which reduce the bandwidth or storage
+       requirements, or improve performance when using post-quantum
+       algorithms (for example by updating post-quantum keys less
+       frequently than classical keys, or by sharing portions of post-
+       quantum keys across a large number of clients or groups.)
+
+   This document addresses the first of these work items.  It reserves
+   an MLS cipher suite value based on the MLS default cipher suite, but
+   replacing the KEM with the X-Wing [I-D.connolly-cfrg-xwing-kem]
+   hybrid post-quantum / traditional KEM.  The IANA Hybrid Public Key
+   Encryption (HPKE) [RFC9180] Key Exchange Mechanism (KEM) Identifier
+   value for X-Wing is pending at the time of this writing.
+
+   X-Wing is a "concrete, simple choice for [a] post-quantum hybrid KEM,
+   that should be suitable for the vast majority of use cases".  X-Wing
+   combines the ML-KEM [MLKEM] post-quantum KEM and the X25519 [RFC7748]
+   traditional KEM.  The MLS cipher suite uses the other components of
+   the default MLS cipher suite
+   MLS_128_DHKEMX25519_AES128GCM_SHA256_Ed25519.
+
+   This document replaces a previous, similar proposal based on the KEM
+   in [I-D.draft-westerbaan-cfrg-hpke-xyber768d00].
+
+2.  Security Considerations
+
+   This ciphersuite uses a hybrid post-quantum/traditional KEM and a
+   traditional signature algorithm.  As such, it is designed to provide
+   confidentiality against quantum and classical attacks, but provides
+   authenticity against classical attacks only.  This is actually very
+   useful, because an attacker could store MLS-encrypted traffic that
+   uses any classical KEM today.  If years or decades in the future a
+   quantum attack on classical KEMs becomes feasible, the traffic sent
+   today (some of which could still be sensitive in the future) will
+   then be readable.  By contrast, an attack on a signature algorithm in
+   MLS would require an active attack which can extract the private key
+   during the signature key's lifetime.
+
+   The security properties of [I-D.connolly-cfrg-xwing-kem] apply.
+
+3.  IANA Considerations
+
+   This document registers a new MLS Ciphersuite value.
+
+   Value:        new assignment
+   Name:         MLS_128_XWING_AES128GCM_SHA256_Ed25519
+   Recommended:  N
+   Reference:    This document
+
+4.  References
+
+4.1.  Normative References
+
+   [I-D.connolly-cfrg-xwing-kem]
+              Connolly, D., Schwabe, P., and B. Westerbaan, "X-Wing:
+              general-purpose hybrid post-quantum KEM", Work in
+              Progress, Internet-Draft, draft-connolly-cfrg-xwing-kem-
+              01, 23 January 2024,
+              <https://datatracker.ietf.org/doc/html/draft-connolly-
+              cfrg-xwing-kem-01>.
+
+   [I-D.draft-westerbaan-cfrg-hpke-xyber768d00]
+              Westerbaan, B. and C. A. Wood, "X25519Kyber768Draft00
+              hybrid post-quantum KEM for HPKE", Work in Progress,
+              Internet-Draft, draft-westerbaan-cfrg-hpke-xyber768d00-02,
+              4 May 2023, <https://datatracker.ietf.org/doc/html/draft-
+              westerbaan-cfrg-hpke-xyber768d00-02>.
+
+   [RFC9180]  Barnes, R., Bhargavan, K., Lipp, B., and C. Wood, "Hybrid
+              Public Key Encryption", RFC 9180, DOI 10.17487/RFC9180,
+              February 2022, <https://www.rfc-editor.org/rfc/rfc9180>.
+
+   [RFC9420]  Barnes, R., Beurdouche, B., Robert, R., Millican, J.,
+              Omara, E., and K. Cohn-Gordon, "The Messaging Layer
+              Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
+              July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
+
+4.2.  Informative References
+
+   [MLKEM]    National Institute of Standards and Technology, "FIPS 203
+              (Initial Draft): Module-Lattice-Based Key-Encapsulation
+              Mechanism Standard", n.d.,
+              <https://csrc.nist.gov/pubs/fips/203/ipd>.
+
+   [RFC7748]  Langley, A., Hamburg, M., and S. Turner, "Elliptic Curves
+              for Security", RFC 7748, DOI 10.17487/RFC7748, January
+              2016, <https://www.rfc-editor.org/rfc/rfc7748>.
+
+Acknowledgments
+
+   Thanks to Joël Alwen, Marta Mularczyk, Britta Hale, and Richard
+   Barnes.
+
+Author's Address
+
+   Rohan Mahy
+   Unaffiliated
+   Email: rohan.ietf@gmail.com
