@@ -93,8 +93,8 @@ Table of Contents
        libraries without changes to any other part of the MLS stack.
        The aim is for implementations to have a single KEM which would
        be performant and work for the vast majority of implementations.
-       It addresses the the harvest-now / decrypt-later threat model
-       using the simplest, and most practicable solution available.
+       It addresses the harvest-now / decrypt-later threat model using
+       the simplest, and most practicable solution available.
 
    2.  Versions of existing cipher suites that use post-quantum
        signatures; and specific guidelines on the construction, use, and
@@ -160,12 +160,14 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-connolly-
               cfrg-xwing-kem-01>.
 
-   [I-D.draft-westerbaan-cfrg-hpke-xyber768d00]
-              Westerbaan, B. and C. A. Wood, "X25519Kyber768Draft00
-              hybrid post-quantum KEM for HPKE", Work in Progress,
-              Internet-Draft, draft-westerbaan-cfrg-hpke-xyber768d00-02,
-              4 May 2023, <https://datatracker.ietf.org/doc/html/draft-
-              westerbaan-cfrg-hpke-xyber768d00-02>.
+   [MLKEM]    National Institute of Standards and Technology, "FIPS 203
+              (Initial Draft): Module-Lattice-Based Key-Encapsulation
+              Mechanism Standard", n.d.,
+              <https://csrc.nist.gov/pubs/fips/203/ipd>.
+
+   [RFC7748]  Langley, A., Hamburg, M., and S. Turner, "Elliptic Curves
+              for Security", RFC 7748, DOI 10.17487/RFC7748, January
+              2016, <https://www.rfc-editor.org/rfc/rfc7748>.
 
    [RFC9180]  Barnes, R., Bhargavan, K., Lipp, B., and C. Wood, "Hybrid
               Public Key Encryption", RFC 9180, DOI 10.17487/RFC9180,
@@ -178,14 +180,12 @@ Table of Contents
 
 4.2.  Informative References
 
-   [MLKEM]    National Institute of Standards and Technology, "FIPS 203
-              (Initial Draft): Module-Lattice-Based Key-Encapsulation
-              Mechanism Standard", n.d.,
-              <https://csrc.nist.gov/pubs/fips/203/ipd>.
-
-   [RFC7748]  Langley, A., Hamburg, M., and S. Turner, "Elliptic Curves
-              for Security", RFC 7748, DOI 10.17487/RFC7748, January
-              2016, <https://www.rfc-editor.org/rfc/rfc7748>.
+   [I-D.draft-westerbaan-cfrg-hpke-xyber768d00]
+              Westerbaan, B. and C. A. Wood, "X25519Kyber768Draft00
+              hybrid post-quantum KEM for HPKE", Work in Progress,
+              Internet-Draft, draft-westerbaan-cfrg-hpke-xyber768d00-02,
+              4 May 2023, <https://datatracker.ietf.org/doc/html/draft-
+              westerbaan-cfrg-hpke-xyber768d00-02>.
 
 Acknowledgments
 
