@@ -36,14 +36,14 @@ author:
     email: rohan.ietf@gmail.com
 
 normative:
-
-informative:
   MLKEM:
     target: https://csrc.nist.gov/pubs/fips/203/ipd
     title: 'FIPS 203 (Initial Draft): Module-Lattice-Based Key-Encapsulation Mechanism Standard'
     author:
       -
         ins: National Institute of Standards and Technology
+
+informative:
 
 --- abstract
 
@@ -71,12 +71,16 @@ hybrid post-quantum/traditional KEM. Such a cipher suite could be
 implemented as a drop-in replacement in many MLS libraries without changes
 to any other part of the MLS stack. The aim is for implementations to have a
 single KEM which would be performant and work for the vast majority of
-implementations. It addresses the the harvest-now / decrypt-later threat model using the simplest, and most practicable solution available.
+implementations. It addresses the harvest-now / decrypt-later threat model
+using the simplest, and most practicable solution available.
 2. Versions of existing cipher suites that use post-quantum signatures; and
 specific guidelines on the construction, use, and validation of hybrid
 signatures.
 3. One or more mechanisms which reduce the bandwidth or storage requirements,
-or improve performance when using post-quantum algorithms (for example by updating post-quantum keys less frequently than classical keys, or by sharing portions of post-quantum keys across a large number of clients or groups.)
+or improve performance when using post-quantum algorithms (for example by
+updating post-quantum keys less frequently than classical keys, or by
+sharing portions of post-quantum keys across a large number of clients or
+groups.)
 
 This document addresses the first of these work items. It reserves an MLS
 cipher suite value based on the MLS default cipher suite, but replacing the KEM
@@ -89,12 +93,12 @@ time of this writing.
 
 X-Wing is a "concrete, simple choice for [a] post-quantum hybrid KEM, that
 should be suitable for the vast majority of use cases". X-Wing combines the
-ML-KEM {{MLKEM}} post-quantum KEM and the X25519 {{?RFC7748}} traditional
+ML-KEM {{MLKEM}} post-quantum KEM and the X25519 {{!RFC7748}} traditional
 KEM. The MLS cipher suite uses the other components of the default MLS cipher
 suite `MLS_128_DHKEMX25519_AES128GCM_SHA256_Ed25519`.
 
 This document replaces a previous, similar proposal based on the KEM in
-{{!I-D.draft-westerbaan-cfrg-hpke-xyber768d00}}.
+{{?I-D.draft-westerbaan-cfrg-hpke-xyber768d00}}.
 
 # Security Considerations
 
