@@ -124,7 +124,7 @@ and TLS signature schemes [RFC8446] is as follows:
 | 0xTBD4 | 0x0041  | 0x0003 | 0x0002 | SHA512 | ecdsa_secp256r1_sha256 |
 | 0xTBD5 | 0x0042  | 0x0003 | 0x0002 | SHA512 | ecdsa_secp384r1_sha384 |
 
-The values `0xTBDH[01]` refer to the code points to be assigned by IANA for
+The values `TBDH0` and `TBDH1` refer to the code points to be assigned by IANA for
 the following hybrid KEMs defined in {{!I-D.irtf-cfrg-hybrid-kems}}:
 
 * `0xTBDH0 = QSF-KEM(ML-KEM-768,P-256)-XOF(SHAKE256)-KDF(SHA3-256)`
