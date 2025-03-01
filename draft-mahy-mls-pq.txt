@@ -1,0 +1,254 @@
+
+
+
+
+MLS                                                              R. Mahy
+Internet-Draft                                              Unaffiliated
+Intended status: Informational                              R. L. Barnes
+Expires: 2 September 2025                                          Cisco
+                                                            1 March 2025
+
+
+      ML-KEM and Hybrid Cipher Suites for Messaging Layer Security
+                        draft-mahy-mls-pq-latest
+
+Abstract
+
+   This document reigsters new cipher suites for Messaging Layer
+   Security (MLS) based on "post-quantum" algorithms, which are intended
+   to be resilient to attack by quantum computers.  These cipher suites
+   are constructed using the new Module-Lattice Key Encapsulation
+   Mechanism (ML-KEM), optionally in combination with traditional
+   elliptic curve KEMs, together with appropriate authenticated
+   encryption, hash, and signature algorithms.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-mahy-mls-pq/.
+
+   Discussion of this document takes place on the MLS Working Group
+   mailing list (mailto:mls@ietf.org), which is archived at
+   https://mailarchive.ietf.org/arch/browse/mls/.  Subscribe at
+   https://www.ietf.org/mailman/listinfo/mls/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/rohanmahy/mahy-mls-xwing/.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 2 September 2025.
+
+Copyright Notice
+
+   Copyright (c) 2025 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  IANA Considereations
+   3.  Security Considerations
+   4.  Normative References
+   Acknowledgments
+   Authors' Addresses
+
+1.  Introduction
+
+   The potential availability of a cryptographically-relevant quantum
+   computer has caused concern that well-funded adversaries could
+   overturn long-held assumptions about the security assurances of
+   classical Key Exchange Mechanisms (KEMs) and classical cryptographic
+   signatures, which are fundamental to modern security protocols,
+   including the MLS protocol [RFC9420].
+
+   Of particular concern are "harvest now, decrypt later" attacks, by
+   which an attacker could collect encrypted traffic now, before a
+   quantum computer exists, and later use a quantum computer to break
+   the confidentiality protections on the collected traffic.
+
+   In response to these concerns, the cryptographic community has
+   defined "post-quantum" algorithms, which are designed to be resilient
+   to attacks by quantum computers.  Symmetric algorithms can be made
+   post-quantum secure simply by using longer keys and hashes.  For
+   asymmetric operations such as KEM and signature, entirely new
+   algorithms are needed.
+
+   In this document, we define ciphersuites that use the post-quantum
+   secure Module-Lattice-Based KEM (ML-KEM) [MLKEM] together with
+   appropriate symmetric algorithms and traditional signature
+   algorithms.  These cipher suites address the risk of "harvest now,
+   decrypt later" attacks, while not taking on the additional cost of
+   post-quantum signatures.
+
+   Following the pattern of base MLS, we define several variations, to
+   allow for users that prefer to only use NIST-approved cryptography,
+   users that prefer a higher security level, and users that prefer a
+   PQ/traditional hybrid KEM over pure ML-KEM:
+
+   *  ML-KEM-768 + X25519 (Medium security, Non-NIST, PQ/T hybrid)
+
+   *  ML-KEM-768 + P-256 (Medium security, NIST, PQ/T hybrid)
+
+   *  ML-KEM-1024 + P-384 (High security, NIST, PQ/T hybrid)
+
+   *  ML-KEM-768 (Medium security, NIST, pure PQ)
+
+   *  ML-KEM-1024 (High security, NIST, pure PQ)
+
+   For the PQ/T hybrid cipher suites, we use the KEM combinators defined
+   in [I-D.connolly-cfrg-xwing-kem] and [I-D.irtf-cfrg-hybrid-kems].
+   For the pure-PQ cipher suites, we use the HPKE integration for ML-KEM
+   defined in [I-D.connolly-cfrg-hpke-mlkem].
+
+2.  IANA Considereations
+
+   This document requests that IANA add the following entries to the
+   "MLS Cipher Suites" registry, replacing "XXXX" with the RFC number
+   assigned to this document:
+
+    +=====+===========================================+===+===========+
+    |Value| Name                                      |Rec| Reference |
+    +=====+===========================================+===+===========+
+    |TBD1 | MLS_128_X_Wing_AES256GCM_SHA384_Ed25519   |Y  | [RFCXXXX] |
+    +-----+-------------------------------------------+---+-----------+
+    |TBD2 | MLS_128_QSF-KEM(ML-KEM-768,P-256)-        |Y  | [RFCXXXX] |
+    |     | 0xTBDH0_AES256GCM_SHA384_P256             |   |           |
+    +-----+-------------------------------------------+---+-----------+
+    |TBD3 | MLS_192_QSF-KEM(ML-KEM-1024,P-384)-       |Y  | [RFCXXXX] |
+    |     | 0xTBDH1_AES256GCM_SHA384_P384             |   |           |
+    +-----+-------------------------------------------+---+-----------+
+    |TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256  |Y  | [RFCXXXX] |
+    +-----+-------------------------------------------+---+-----------+
+    |TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384 |Y  | [RFCXXXX] |
+    +-----+-------------------------------------------+---+-----------+
+
+                                  Table 1
+
+      Note to IANA, please replace THDH0 and TBDH1 in lines 2 and 3 of
+      the table.
+
+   All of these cipher suites use HMAC [RFC2104] with SHA512 as their
+   MAC function.  The mapping of cipher suites to HPKE primitives
+   [RFC9180], HMAC hash functions, and TLS signature schemes [RFC8446]
+   is as follows:
+
+   +======+=========+======+========+========+========================+
+   |Value | KEM     |KDF   | AEAD   | Hash   | Signature              |
+   +======+=========+======+========+========+========================+
+   |0xTBD1| 0x647a  |0x0002| 0x0002 | SHA384 | ed25519                |
+   +------+---------+------+--------+--------+------------------------+
+   |0xTBD2| 0xTBDH0 |0x0002| 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
+   +------+---------+------+--------+--------+------------------------+
+   |0xTBD3| 0xTBDH1 |0x0002| 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
+   +------+---------+------+--------+--------+------------------------+
+   |0xTBD4| 0x0041  |0x0002| 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
+   +------+---------+------+--------+--------+------------------------+
+   |0xTBD5| 0x0042  |0x0002| 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
+   +------+---------+------+--------+--------+------------------------+
+
+                                 Table 2
+
+   The values TBDH0 and TBDH1 refer to the code points to be assigned by
+   IANA for the following hybrid KEMs defined in
+   [I-D.irtf-cfrg-hybrid-kems]:
+
+   *  TBDH0 = QSF-KEM(ML-KEM-768,P-256)-XOF(SHAKE256)-KDF(SHA3-256)
+
+   *  TBDH1 = QSF-KEM(ML-KEM-1024,P-384)-XOF(SHAKE256)-KDF(SHA3-256)
+
+   The hash used for the MLS transcript hash is the one referenced in
+   the cipher suite name.  "SHA512" refers to the SHA-512 functions
+   defined in [SHS].
+
+3.  Security Considerations
+
+   This ciphersuites defined in this document combine a post-quantum (or
+   PQ/T hybrid) KEM with a traditional signature algorithm.  As such,
+   they are designed to provide confidentiality against quantum and
+   classical attacks, but provide authenticity against classical attacks
+   only.  Thus, these cipher suites do not provide full post-quantum
+   security, only post-quantum confidentiality.  Cipher suites using
+   post-quantum secure signature algorithms may be defined in the
+   future.
+
+   For security considerations related to the KEMs used in this
+   document, please see the documents that define those KEMs
+   [I-D.connolly-cfrg-xwing-kem] [I-D.irtf-cfrg-hybrid-kems]
+   [I-D.connolly-cfrg-hpke-mlkem].
+
+4.  Normative References
+
+   [I-D.connolly-cfrg-hpke-mlkem]
+              Connolly, D., "ML-KEM for HPKE", Work in Progress,
+              Internet-Draft, draft-connolly-cfrg-hpke-mlkem-04, 18
+              October 2024, <https://datatracker.ietf.org/doc/html/
+              draft-connolly-cfrg-hpke-mlkem-04>.
+
+   [I-D.connolly-cfrg-xwing-kem]
+              Connolly, D., Schwabe, P., and B. Westerbaan, "X-Wing:
+              general-purpose hybrid post-quantum KEM", Work in
+              Progress, Internet-Draft, draft-connolly-cfrg-xwing-kem-
+              06, 21 October 2024,
+              <https://datatracker.ietf.org/doc/html/draft-connolly-
+              cfrg-xwing-kem-06>.
+
+   [I-D.irtf-cfrg-hybrid-kems]
+              Connolly, D., "Hybrid PQ/T Key Encapsulation Mechanisms",
+              Work in Progress, Internet-Draft, draft-irtf-cfrg-hybrid-
+              kems-03, 25 February 2025,
+              <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
+              hybrid-kems-03>.
+
+   [MLKEM]    "Module-lattice-based key-encapsulation mechanism
+              standard", National Institute of Standards and Technology
+              (U.S.), DOI 10.6028/nist.fips.203, August 2024,
+              <https://doi.org/10.6028/nist.fips.203>.
+
+   [RFC9420]  Barnes, R., Beurdouche, B., Robert, R., Millican, J.,
+              Omara, E., and K. Cohn-Gordon, "The Messaging Layer
+              Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
+              July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
+
+   [SHS]      "Secure hash standard", National Institute of Standards
+              and Technology (U.S.), DOI 10.6028/nist.fips.180-4, 2015,
+              <https://doi.org/10.6028/nist.fips.180-4>.
+
+Acknowledgments
+
+   Thanks to Joël Alwen, Marta Mularczyk, and Britta Hale.
+
+Authors' Addresses
+
+   Rohan Mahy
+   Unaffiliated
+   Email: rohan.ietf@gmail.com
+
+
+   Richard L. Barnes
+   Cisco
+   Email: rlb@ipv.sx

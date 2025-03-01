@@ -4,14 +4,18 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Messaging Layer Security Ciphersuite using XWing Key Exchange Mechanism</title>
+<title>ML-KEM and Hybrid Cipher Suites for Messaging Layer Security</title>
 <meta content="Rohan Mahy" name="author">
-<meta content="
-       This document registers a new Messaging Layer Security (MLS) ciphersuite using
-the X-Wing hybrid post-quantum resistant / traditional (PQ/T) Key Exchange
-Mechanism (KEM). 
-    " name="description">
-<meta content="xml2rfc 3.25.0" name="generator">
+<meta content="Richard L. Barnes" name="author">
+<meta content='
+       This document reigsters new cipher suites for Messaging Layer Security (MLS)
+based on "post-quantum" algorithms, which are intended to be resilient to attack
+by quantum computers.  These cipher suites are constructed using the new
+Module-Lattice Key Encapsulation Mechanism (ML-KEM), optionally in combination
+with traditional elliptic curve KEMs, together with appropriate authenticated
+encryption, hash, and signature algorithms. 
+    ' name="description">
+<meta content="xml2rfc 3.27.0" name="generator">
 <meta content="ML-KEM" name="keyword">
 <meta content="Kyber" name="keyword">
 <meta content="post-quantum" name="keyword">
@@ -21,10 +25,10 @@ Mechanism (KEM).
 <meta content="hybrid" name="keyword">
 <meta content="hybrid KEM" name="keyword">
 <meta content="Key Exchange Mechanism" name="keyword">
-<meta content="draft-mahy-mls-xwing-latest" name="ietf.draft">
+<meta content="draft-mahy-mls-pq-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.25.0
-    Python 3.12.8
+  xml2rfc 3.27.0
+    Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
@@ -37,7 +41,7 @@ Mechanism (KEM).
     setuptools 70.3.0
     wcwidth 0.2.13
 -->
-<link href="draft-mahy-mls-xwing.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-mahy-mls-pq.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@font-face {
   font-family: 'Lora';
@@ -445,7 +449,7 @@ dl {
     margin-bottom: 0;
   }
 }
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
@@ -1053,12 +1057,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="center">XWing ciphersuite for MLS</td>
-<td class="right">February 2025</td>
+<td class="center">MLS Cipher Suites with ML-KEM</td>
+<td class="right">March 2025</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Mahy</td>
-<td class="center">Expires 7 August 2025</td>
+<td class="left">Mahy &amp; Barnes</td>
+<td class="center">Expires 2 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,30 +1072,37 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">MLS</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-mahy-mls-xwing-latest</dd>
+<dd class="internet-draft">draft-mahy-mls-pq-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-02-03" class="published">3 February 2025</time>
+<time datetime="2025-03-01" class="published">1 March 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-08-07">7 August 2025</time></dd>
-<dt class="label-authors">Author:</dt>
+<dd class="expires"><time datetime="2025-09-02">2 September 2025</time></dd>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">R. Mahy</div>
 <div class="org">Unaffiliated</div>
 </div>
+<div class="author">
+      <div class="author-name">R. L. Barnes</div>
+<div class="org">Cisco</div>
+</div>
 </dd>
 </dl>
 </div>
-<h1 id="title">Messaging Layer Security Ciphersuite using XWing Key Exchange Mechanism</h1>
+<h1 id="title">ML-KEM and Hybrid Cipher Suites for Messaging Layer Security</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document registers a new Messaging Layer Security (MLS) ciphersuite using
-the X-Wing hybrid post-quantum resistant / traditional (PQ/T) Key Exchange
-Mechanism (KEM).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document reigsters new cipher suites for Messaging Layer Security (MLS)
+based on "post-quantum" algorithms, which are intended to be resilient to attack
+by quantum computers.  These cipher suites are constructed using the new
+Module-Lattice Key Encapsulation Mechanism (ML-KEM), optionally in combination
+with traditional elliptic curve KEMs, together with appropriate authenticated
+encryption, hash, and signature algorithms.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1099,7 +1110,7 @@ Mechanism (KEM).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-mahy-mls-xwing/">https://datatracker.ietf.org/doc/draft-mahy-mls-xwing/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-mahy-mls-pq/">https://datatracker.ietf.org/doc/draft-mahy-mls-pq/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
 <p id="section-note.1-3">
         Discussion of this document takes place on the
         MLS Working Group mailing list (<span><a href="mailto:mls@ietf.org">mailto:mls@ietf.org</a></span>),
@@ -1127,7 +1138,7 @@ Mechanism (KEM).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 2 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1160,27 +1171,19 @@ Mechanism (KEM).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-iana-considereations" class="internal xref">IANA Considereations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-references" class="internal xref">References</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1197,127 +1200,222 @@ long-held assumptions about the security assurances of classical
 Key Exchange Mechanisms (KEMs) and classical cryptographic signatures,
 which are fundamental to modern security protocols, including the MLS
 protocol <span>[<a href="#RFC9420" class="cite xref">RFC9420</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">The MLS Working Group has expressed strong desire to have a handful of
-complimentary post-quantum security extensions for use with the MLS
-protocol to address the related threats:<a href="#section-1-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-1-3">
-<li id="section-1-3.1">
-          <p id="section-1-3.1.1">A straightforward MLS cipher suite that replaces a classical KEM with a
-hybrid post-quantum/traditional KEM. Such a cipher suite could be
-implemented as a drop-in replacement in many MLS libraries without changes
-to any other part of the MLS stack. The aim is for implementations to have a
-single KEM which would be performant and work for the vast majority of
-implementations. It addresses the harvest-now / decrypt-later threat model
-using the simplest, and most practicable solution available.<a href="#section-1-3.1.1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Of particular concern are "harvest now, decrypt later" attacks, by which an
+attacker could collect encrypted traffic now, before a quantum computer exists,
+and later use a quantum computer to break the confidentiality protections on the
+collected traffic.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">In response to these concerns, the cryptographic community has defined
+"post-quantum" algorithms, which are designed to be resilient to attacks by
+quantum computers.  Symmetric algorithms can be made post-quantum secure simply
+by using longer keys and hashes.  For asymmetric operations such as KEM and
+signature, entirely new algorithms are needed.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">In this document, we define ciphersuites that use the post-quantum secure
+Module-Lattice-Based KEM (ML-KEM) <span>[<a href="#MLKEM" class="cite xref">MLKEM</a>]</span> together with appropriate symmetric
+algorithms and traditional signature algorithms.  These cipher suites address
+the risk of "harvest now, decrypt later" attacks, while not taking on the
+additional cost of post-quantum signatures.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">Following the pattern of base MLS, we define several variations, to allow for
+users that prefer to only use NIST-approved cryptography, users that prefer a
+higher security level, and users that prefer a PQ/traditional hybrid KEM over
+pure ML-KEM:<a href="#section-1-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1-6.1">
+          <p id="section-1-6.1.1">ML-KEM-768 + X25519 (Medium security, Non-NIST, PQ/T hybrid)<a href="#section-1-6.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-1-3.2">
-          <p id="section-1-3.2.1">Versions of existing cipher suites that use post-quantum signatures; and
-specific guidelines on the construction, use, and validation of hybrid
-signatures.<a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-6.2">
+          <p id="section-1-6.2.1">ML-KEM-768 + P-256 (Medium security, NIST, PQ/T hybrid)<a href="#section-1-6.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-1-3.3">
-          <p id="section-1-3.3.1">One or more mechanisms which reduce the bandwidth or storage requirements,
-or improve performance when using post-quantum algorithms (for example by
-updating post-quantum keys less frequently than classical keys, or by
-sharing portions of post-quantum keys across a large number of clients or
-groups.)<a href="#section-1-3.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-6.3">
+          <p id="section-1-6.3.1">ML-KEM-1024 + P-384 (High security, NIST, PQ/T hybrid)<a href="#section-1-6.3.1" class="pilcrow">¶</a></p>
 </li>
-      </ol>
-<p id="section-1-4">This document addresses the first of these work items. It reserves an MLS
-cipher suite value based on the MLS default cipher suite, but replacing the KEM
-with the X-Wing <span>[<a href="#I-D.connolly-cfrg-xwing-kem" class="cite xref">I-D.connolly-cfrg-xwing-kem</a>]</span> hybrid post-quantum /
-traditional KEM. The IANA Hybrid Public Key Encryption (HPKE) <span>[<a href="#RFC9180" class="cite xref">RFC9180</a>]</span>
-Key Exchange Mechanism (KEM) Identifier value for X-Wing is pending at the
-time of this writing.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">X-Wing is a "concrete, simple choice for [a] post-quantum hybrid KEM, that
-should be suitable for the vast majority of use cases". X-Wing combines the
-ML-KEM <span>[<a href="#MLKEM" class="cite xref">MLKEM</a>]</span> post-quantum KEM and the X25519 <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span> traditional
-KEM. The MLS cipher suite uses the other components of the default MLS cipher
-suite <code>MLS_128_DHKEMX25519_AES128GCM_SHA256_Ed25519</code>.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">This document replaces a previous, similar proposal based on the KEM in
-<span>[<a href="#I-D.draft-westerbaan-cfrg-hpke-xyber768d00" class="cite xref">I-D.draft-westerbaan-cfrg-hpke-xyber768d00</a>]</span>.<a href="#section-1-6" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-6.4">
+          <p id="section-1-6.4.1">ML-KEM-768 (Medium security, NIST, pure PQ)<a href="#section-1-6.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-6.5">
+          <p id="section-1-6.5.1">ML-KEM-1024 (High security, NIST, pure PQ)<a href="#section-1-6.5.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-1-7">For the PQ/T hybrid cipher suites, we use the KEM combinators defined in
+<span>[<a href="#I-D.connolly-cfrg-xwing-kem" class="cite xref">I-D.connolly-cfrg-xwing-kem</a>]</span> and <span>[<a href="#I-D.irtf-cfrg-hybrid-kems" class="cite xref">I-D.irtf-cfrg-hybrid-kems</a>]</span>.  For the
+pure-PQ cipher suites, we use the HPKE integration for ML-KEM defined in
+<span>[<a href="#I-D.connolly-cfrg-hpke-mlkem" class="cite xref">I-D.connolly-cfrg-hpke-mlkem</a>]</span>.<a href="#section-1-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considereations">
+<section id="section-2">
+      <h2 id="name-iana-considereations">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-iana-considereations" class="section-name selfRef">IANA Considereations</a>
+      </h2>
+<p id="section-2-1">This document requests that IANA add the following entries to the "MLS Cipher
+Suites" registry, replacing "XXXX" with the RFC number assigned to this document:<a href="#section-2-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+        <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Value</th>
+            <th class="text-left" rowspan="1" colspan="1">Name</th>
+            <th class="text-left" rowspan="1" colspan="1">Rec</th>
+            <th class="text-left" rowspan="1" colspan="1">Reference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">TBD1</td>
+            <td class="text-left" rowspan="1" colspan="1">MLS_128_X_Wing_AES256GCM_SHA384_Ed25519</td>
+            <td class="text-left" rowspan="1" colspan="1">Y</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFCXXXX]</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">TBD2</td>
+            <td class="text-left" rowspan="1" colspan="1">MLS_128_QSF-KEM(ML-KEM-768,P-256)-0xTBDH0_AES256GCM_SHA384_P256</td>
+            <td class="text-left" rowspan="1" colspan="1">Y</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFCXXXX]</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">TBD3</td>
+            <td class="text-left" rowspan="1" colspan="1">MLS_192_QSF-KEM(ML-KEM-1024,P-384)-0xTBDH1_AES256GCM_SHA384_P384</td>
+            <td class="text-left" rowspan="1" colspan="1">Y</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFCXXXX]</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">TBD4</td>
+            <td class="text-left" rowspan="1" colspan="1">MLS_128_ML_KEM_768_AES256GCM_SHA384_P256</td>
+            <td class="text-left" rowspan="1" colspan="1">Y</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFCXXXX]</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">TBD5</td>
+            <td class="text-left" rowspan="1" colspan="1">MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384</td>
+            <td class="text-left" rowspan="1" colspan="1">Y</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFCXXXX]</td>
+          </tr>
+        </tbody>
+      </table>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-2-3.1">
+          <p id="section-2-3.1.1">Note to IANA, please replace <code>THDH0</code> and <code>TBDH1</code> in lines 2 and 3 of the table.<a href="#section-2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-2-4">All of these cipher suites use HMAC [RFC2104] with SHA512 as their MAC function.
+The mapping of cipher suites to HPKE primitives [RFC9180], HMAC hash functions,
+and TLS signature schemes [RFC8446] is as follows:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<table class="center" id="table-2">
+        <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Value</th>
+            <th class="text-left" rowspan="1" colspan="1">KEM</th>
+            <th class="text-left" rowspan="1" colspan="1">KDF</th>
+            <th class="text-left" rowspan="1" colspan="1">AEAD</th>
+            <th class="text-left" rowspan="1" colspan="1">Hash</th>
+            <th class="text-left" rowspan="1" colspan="1">Signature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">0xTBD1</td>
+            <td class="text-left" rowspan="1" colspan="1">0x647a</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">SHA384</td>
+            <td class="text-left" rowspan="1" colspan="1">ed25519</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">0xTBD2</td>
+            <td class="text-left" rowspan="1" colspan="1">0xTBDH0</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">SHA384</td>
+            <td class="text-left" rowspan="1" colspan="1">ecdsa_secp256r1_sha256</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">0xTBD3</td>
+            <td class="text-left" rowspan="1" colspan="1">0xTBDH1</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">SHA384</td>
+            <td class="text-left" rowspan="1" colspan="1">ecdsa_secp384r1_sha384</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">0xTBD4</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0041</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">SHA384</td>
+            <td class="text-left" rowspan="1" colspan="1">ecdsa_secp256r1_sha256</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">0xTBD5</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0042</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+            <td class="text-left" rowspan="1" colspan="1">SHA384</td>
+            <td class="text-left" rowspan="1" colspan="1">ecdsa_secp384r1_sha384</td>
+          </tr>
+        </tbody>
+      </table>
+<p id="section-2-6">The values <code>TBDH0</code> and <code>TBDH1</code> refer to the code points to be assigned by IANA for
+the following hybrid KEMs defined in <span>[<a href="#I-D.irtf-cfrg-hybrid-kems" class="cite xref">I-D.irtf-cfrg-hybrid-kems</a>]</span>:<a href="#section-2-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-7.1">
+          <p id="section-2-7.1.1"><code>TBDH0 = QSF-KEM(ML-KEM-768,P-256)-XOF(SHAKE256)-KDF(SHA3-256)</code><a href="#section-2-7.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-7.2">
+          <p id="section-2-7.2.1"><code>TBDH1 = QSF-KEM(ML-KEM-1024,P-384)-XOF(SHAKE256)-KDF(SHA3-256)</code><a href="#section-2-7.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-2-8">The hash used for the MLS transcript hash is the one referenced in the cipher
+suite name. "SHA512" refers to the SHA-512 functions defined in <span>[<a href="#SHS" class="cite xref">SHS</a>]</span>.<a href="#section-2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-2">
-      <h2 id="name-security-considerations">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
-      </h2>
-<p id="section-2-1">This ciphersuite uses a hybrid post-quantum/traditional KEM and a traditional
-signature algorithm. As such, it is designed to provide confidentiality against
-quantum and classical attacks, but provides authenticity against classical
-attacks only. This is actually very useful, because an attacker could store
-MLS-encrypted traffic that uses any classical KEM today. If years or decades in
-the future a quantum attack on classical KEMs becomes feasible, the traffic sent
-today (some of which could still be sensitive in the future) will then be readable.
-By contrast, an attack on a signature algorithm in MLS would require an active
-attack which can extract the private key during the signature key's lifetime.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">The security properties of <span>[<a href="#I-D.connolly-cfrg-xwing-kem" class="cite xref">I-D.connolly-cfrg-xwing-kem</a>]</span> apply.<a href="#section-2-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="iana-considerations">
 <section id="section-3">
-      <h2 id="name-iana-considerations">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      <h2 id="name-security-considerations">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-3-1">This document registers a new MLS Ciphersuite value.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3-2">
-<pre>
-Value:        new assignment
-Name:         MLS_128_XWING_AES128GCM_SHA256_Ed25519
-Recommended:  N
-Reference:    This document
-</pre><a href="#section-3-2" class="pilcrow">¶</a>
-</div>
+<p id="section-3-1">This ciphersuites defined in this document combine a post-quantum (or PQ/T
+hybrid) KEM with a traditional signature algorithm. As such, they are designed
+to provide confidentiality against quantum and classical attacks, but provide
+authenticity against classical attacks only.  Thus, these cipher suites do not
+provide full post-quantum security, only post-quantum confidentiality.  Cipher
+suites using post-quantum secure signature algorithms may be defined in the
+future.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">For security considerations related to the KEMs used in this document, please
+see the documents that define those KEMs <span>[<a href="#I-D.connolly-cfrg-xwing-kem" class="cite xref">I-D.connolly-cfrg-xwing-kem</a>]</span>
+        <span>[<a href="#I-D.irtf-cfrg-hybrid-kems" class="cite xref">I-D.irtf-cfrg-hybrid-kems</a>]</span> <span>[<a href="#I-D.connolly-cfrg-hpke-mlkem" class="cite xref">I-D.connolly-cfrg-hpke-mlkem</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="sec-combined-references">
-<section id="section-4">
-      <h2 id="name-references">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-references" class="section-name selfRef">References</a>
-      </h2>
 <div id="sec-normative-references">
-<section id="section-4.1">
-        <h3 id="name-normative-references">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
-        </h3>
+<section id="section-4">
+      <h2 id="name-normative-references">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+      </h2>
 <dl class="references">
+<dt id="I-D.connolly-cfrg-hpke-mlkem">[I-D.connolly-cfrg-hpke-mlkem]</dt>
+      <dd>
+<span class="refAuthor">Connolly, D.</span>, <span class="refTitle">"ML-KEM for HPKE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-connolly-cfrg-hpke-mlkem-04</span>, <time datetime="2024-10-18" class="refDate">18 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-connolly-cfrg-hpke-mlkem-04">https://datatracker.ietf.org/doc/html/draft-connolly-cfrg-hpke-mlkem-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.connolly-cfrg-xwing-kem">[I-D.connolly-cfrg-xwing-kem]</dt>
-        <dd>
+      <dd>
 <span class="refAuthor">Connolly, D.</span>, <span class="refAuthor">Schwabe, P.</span>, and <span class="refAuthor">B. Westerbaan</span>, <span class="refTitle">"X-Wing: general-purpose hybrid post-quantum KEM"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-connolly-cfrg-xwing-kem-06</span>, <time datetime="2024-10-21" class="refDate">21 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-connolly-cfrg-xwing-kem-06">https://datatracker.ietf.org/doc/html/draft-connolly-cfrg-xwing-kem-06</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.irtf-cfrg-hybrid-kems">[I-D.irtf-cfrg-hybrid-kems]</dt>
+      <dd>
+<span class="refAuthor">Connolly, D.</span>, <span class="refTitle">"Hybrid PQ/T Key Encapsulation Mechanisms"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-hybrid-kems-03</span>, <time datetime="2025-02-25" class="refDate">25 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-hybrid-kems-03">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-hybrid-kems-03</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="MLKEM">[MLKEM]</dt>
-        <dd>
-<span class="refAuthor">National Institute of Standards and Technology</span>, <span class="refTitle">"FIPS 203 (Initial Draft): Module-Lattice-Based Key-Encapsulation Mechanism Standard"</span>, <span>n.d.</span>, <span>&lt;<a href="https://csrc.nist.gov/pubs/fips/203/ipd">https://csrc.nist.gov/pubs/fips/203/ipd</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7748">[RFC7748]</dt>
-        <dd>
-<span class="refAuthor">Langley, A.</span>, <span class="refAuthor">Hamburg, M.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Elliptic Curves for Security"</span>, <span class="seriesInfo">RFC 7748</span>, <span class="seriesInfo">DOI 10.17487/RFC7748</span>, <time datetime="2016-01" class="refDate">January 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7748">https://www.rfc-editor.org/rfc/rfc7748</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9180">[RFC9180]</dt>
-        <dd>
-<span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Bhargavan, K.</span>, <span class="refAuthor">Lipp, B.</span>, and <span class="refAuthor">C. Wood</span>, <span class="refTitle">"Hybrid Public Key Encryption"</span>, <span class="seriesInfo">RFC 9180</span>, <span class="seriesInfo">DOI 10.17487/RFC9180</span>, <time datetime="2022-02" class="refDate">February 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9180">https://www.rfc-editor.org/rfc/rfc9180</a>&gt;</span>. </dd>
+      <dd>
+<span class="refTitle">"Module-lattice-based key-encapsulation mechanism standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.203</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.203">https://doi.org/10.6028/nist.fips.203</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9420">[RFC9420]</dt>
       <dd>
 <span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Beurdouche, B.</span>, <span class="refAuthor">Robert, R.</span>, <span class="refAuthor">Millican, J.</span>, <span class="refAuthor">Omara, E.</span>, and <span class="refAuthor">K. Cohn-Gordon</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Protocol"</span>, <span class="seriesInfo">RFC 9420</span>, <span class="seriesInfo">DOI 10.17487/RFC9420</span>, <time datetime="2023-07" class="refDate">July 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9420">https://www.rfc-editor.org/rfc/rfc9420</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-</dl>
-</section>
-</div>
-<div id="sec-informative-references">
-<section id="section-4.2">
-        <h3 id="name-informative-references">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
-        </h3>
-<dl class="references">
-<dt id="I-D.draft-westerbaan-cfrg-hpke-xyber768d00">[I-D.draft-westerbaan-cfrg-hpke-xyber768d00]</dt>
-      <dd>
-<span class="refAuthor">Westerbaan, B.</span> and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"X25519Kyber768Draft00 hybrid post-quantum KEM for HPKE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-westerbaan-cfrg-hpke-xyber768d00-03</span>, <time datetime="2024-05-14" class="refDate">14 May 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-westerbaan-cfrg-hpke-xyber768d00-03">https://datatracker.ietf.org/doc/html/draft-westerbaan-cfrg-hpke-xyber768d00-03</a>&gt;</span>. </dd>
+<dt id="SHS">[SHS]</dt>
+    <dd>
+<span class="refTitle">"Secure hash standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.180-4</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.180-4">https://doi.org/10.6028/nist.fips.180-4</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
-</section>
-</div>
 </section>
 </div>
 <div id="acknowledgments">
@@ -1325,13 +1423,13 @@ Reference:    This document
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-A-1">Thanks to Joël Alwen, Marta Mularczyk, Britta Hale, and Richard Barnes.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">Thanks to Joël Alwen, Marta Mularczyk, and Britta Hale.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
 <section id="appendix-B">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Rohan Mahy</span></div>
@@ -1339,6 +1437,14 @@ Reference:    This document
 <div class="email">
 <span>Email:</span>
 <a href="mailto:rohan.ietf@gmail.com" class="email">rohan.ietf@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Richard L. Barnes</span></div>
+<div dir="auto" class="left"><span class="org">Cisco</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:rlb@ipv.sx" class="email">rlb@ipv.sx</a>
 </div>
 </address>
 </section>
