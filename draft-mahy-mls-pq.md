@@ -127,8 +127,8 @@ and TLS signature schemes [RFC8446] is as follows:
 The values `TBDH0` and `TBDH1` refer to the code points to be assigned by IANA for
 the following hybrid KEMs defined in {{!I-D.irtf-cfrg-hybrid-kems}}:
 
-* `0xTBDH0 = QSF-KEM(ML-KEM-768,P-256)-XOF(SHAKE256)-KDF(SHA3-256)`
-* `0xTBDH1 = QSF-KEM(ML-KEM-1024,P-384)-XOF(SHAKE256)-KDF(SHA3-256)`
+* `TBDH0 = QSF-KEM(ML-KEM-768,P-256)-XOF(SHAKE256)-KDF(SHA3-256)`
+* `TBDH1 = QSF-KEM(ML-KEM-1024,P-384)-XOF(SHAKE256)-KDF(SHA3-256)`
 
 The hash used for the MLS transcript hash is the one referenced in the cipher
 suite name. "SHA512" refers to the SHA-512 functions defined in [SHS].
