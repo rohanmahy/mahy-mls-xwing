@@ -32,7 +32,7 @@ venue:
 author:
  -  ins: R. Mahy
     name: Rohan Mahy
-    organization: Unaffiliated
+    organization: Rohan Mahy Consulting Services
     email: rohan.ietf@gmail.com
  -  ins: R.L. Barnes
     name: Richard L. Barnes
@@ -114,7 +114,7 @@ Suites" registry, replacing "XXXX" with the RFC number assigned to this document
 
 > Note to IANA, please replace `THDH0` and `TBDH1` in lines 2 and 3 of the table.
 
-All of these cipher suites use HMAC [RFC2104] with SHA512 as their MAC function.
+All of these cipher suites use HMAC [RFC2104] with SHA384 as their MAC function.
 The mapping of cipher suites to HPKE primitives [RFC9180], HMAC hash functions,
 and TLS signature schemes [RFC8446] is as follows:
 
@@ -133,7 +133,7 @@ the following hybrid KEMs defined in {{!I-D.irtf-cfrg-hybrid-kems}}:
 * `TBDH1 = QSF-KEM(ML-KEM-1024,P-384)-XOF(SHAKE256)-KDF(SHA3-256)`
 
 The hash used for the MLS transcript hash is the one referenced in the cipher
-suite name. "SHA512" refers to the SHA-512 functions defined in [SHS].
+suite name. "SHA384" refers to the SHA-384 functions defined in [SHS].
 
 # Security Considerations
 
