@@ -1,6 +1,6 @@
 ---
 title: ML-KEM and Hybrid Cipher Suites for Messaging Layer Security
-abbrev: MLS with ML-KEM
+abbrev: MLS Cipher Suites with ML-KEM
 docname: draft-mahy-mls-pq-latest
 ipr: trust200902
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"area: art
@@ -53,7 +53,7 @@ based on "post-quantum" algorithms, which are intended to be resilient to attack
 by quantum computers.  These cipher suites are constructed using the new
 Module-Lattice Key Encapsulation Mechanism (ML-KEM), optionally in combination
 with traditional elliptic curve KEMs, together with appropriate authenticated
-encryption and hash algorithms.
+encryption, hash, and signature algorithms.
 
 --- middle
 
@@ -106,11 +106,13 @@ Suites" registry, replacing "XXXX" with the RFC number assigned to this document
 
 | Value  | Name                                       | Rec | Reference |
 |:=======|:===========================================|:===:|:=========:|
-| 0xTBD1 | MLS_128_X_Wing_AES256GCM_SHA512_Ed25519    |  Y  | [RFCXXXX] |
-| 0xTBD2 | MLS_128_QSF_768_AES256GCM_SHA512_P256      |  Y  | [RFCXXXX] |
-| 0xTBD3 | MLS_256_QSF_1024_AES256GCM_SHA512_P384     |  Y  | [RFCXXXX] |
-| 0xTBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA512_P256   |  Y  | [RFCXXXX] |
-| 0xTBD5 | MLS_256_ML_KEM_1024_AES256GCM_SHA512_P384  |  Y  | [RFCXXXX] |
+| TBD1 | MLS_128_X_Wing_AES256GCM_SHA384_Ed25519    |  Y  | [RFCXXXX] |
+| TBD2 | MLS_128_QSF-KEM(ML-KEM-768,P-256)-0xTBDH0_AES256GCM_SHA384_P256      |  Y  | [RFCXXXX] |
+| TBD3 | MLS_192_QSF-KEM(ML-KEM-1024,P-384)-0xTBDH1_AES256GCM_SHA384_P384     |  Y  | [RFCXXXX] |
+| TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256   |  Y  | [RFCXXXX] |
+| TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384  |  Y  | [RFCXXXX] |
+
+> Note to IANA, please replace `THDH0` and `TBDH1` in lines 2 and 3 of the table.
 
 All of these cipher suites use HMAC [RFC2104] with SHA512 as their MAC function.
 The mapping of cipher suites to HPKE primitives [RFC9180], HMAC hash functions,
@@ -118,11 +120,11 @@ and TLS signature schemes [RFC8446] is as follows:
 
 | Value  | KEM     | KDF    | AEAD   | Hash   | Signature              |
 |:=======|:========|:=======|:=======|:=======|:=======================|
-| 0xTBD1 | 0x647a  | 0x0003 | 0x0002 | SHA512 | ed25519                |
-| 0xTBD2 | 0xTBDH0 | 0x0003 | 0x0002 | SHA512 | ecdsa_secp256r1_sha256 |
-| 0xTBD3 | 0xTBDH1 | 0x0003 | 0x0002 | SHA512 | ecdsa_secp384r1_sha384 |
-| 0xTBD4 | 0x0041  | 0x0003 | 0x0002 | SHA512 | ecdsa_secp256r1_sha256 |
-| 0xTBD5 | 0x0042  | 0x0003 | 0x0002 | SHA512 | ecdsa_secp384r1_sha384 |
+| 0xTBD1 | 0x647a  | 0x0002 | 0x0002 | SHA384 | ed25519                |
+| 0xTBD2 | 0xTBDH0 | 0x0002 | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
+| 0xTBD3 | 0xTBDH1 | 0x0002 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
+| 0xTBD4 | 0x0041  | 0x0002 | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
+| 0xTBD5 | 0x0042  | 0x0002 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
 
 The values `TBDH0` and `TBDH1` refer to the code points to be assigned by IANA for
 the following hybrid KEMs defined in {{!I-D.irtf-cfrg-hybrid-kems}}:
