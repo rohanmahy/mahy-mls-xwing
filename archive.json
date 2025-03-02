@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-27T01:12:01.061058+00:00",
+  "timestamp": "2025-03-02T01:16:14.888489+00:00",
   "repo": "rohanmahy/mahy-mls-xwing",
   "labels": [
     {
@@ -50,5 +50,319 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOLbkcE86M_m_J",
+      "title": "Update for IETF 122",
+      "url": "https://github.com/rohanmahy/mahy-mls-xwing/pull/1",
+      "state": "MERGED",
+      "author": "bifurcation",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "* Refresh references, including new combiner drafts\r\n* Include a more fulsome collection of algorithm options",
+      "createdAt": "2025-02-28T22:33:48Z",
+      "updatedAt": "2025-03-01T22:20:31Z",
+      "baseRepository": "rohanmahy/mahy-mls-xwing",
+      "baseRefName": "main",
+      "baseRefOid": "2126295f9d0853b8ad818bc98c6088f0806c3a93",
+      "headRepository": "bifurcation/mahy-mls-xwing",
+      "headRefName": "pq",
+      "headRefOid": "5cbdd637d87752fecdc394f9d96426a9175523ad",
+      "closedAt": "2025-03-01T20:26:38Z",
+      "mergedAt": "2025-03-01T20:26:38Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "5a13469ff91114113bb761b094113eb56558ed90"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLbkcE86eEb0a",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-28T23:44:54Z",
+          "updatedAt": "2025-02-28T23:44:54Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "I don't think these MLS combos make sense, and the AFAIK the names are wrong\r\n\r\n- There is no reason to use SHA512 for everything. Only the P521 and Ed448 MLS ciphersuites currently use SHA512. \r\n- Align the security levels and pick a matching HASH and AEAD (see exception \u2020\u2020)\r\n- Likewise, for the ciphersuites that use already need SHA3 in their KDF, maybe we should use SHA3 as the MLS ciphersuite HASH function?\r\n- Since AES192 is often available and AES256 is quite fast, use AES256 even when using the 192 security level (like MLS ciphersuite 0x0007 does, which actually only has 192 bits of security).\r\n- (\u2020\u2020) CSNA 2.0 sort of deprecated SHA256 even for the 128 bit security level; people who want to use pure PQ are almost certainly following CSNA and therefore probably need SHA384.\r\n\r\nMLS_128_X-Wing_AES128GCM_SHA256_Ed25519\r\nMLS_128_QSF-KEM(ML-KEM-768,P-256)-XOF(SHAKE256)-KDF(SHA3-256)_AES128GCM_SHA3-256_P256\r\nMLS_192_QSF-KEM(ML-KEM-1024,P-384)-XOF(SHAKE256)-KDF(SHA3-256)_AES256GCM_SHA3-384_P384\r\nMLS_128_ML-KEM-768_AES128GCM_SHA384_P256 (\u2020\u2020)\r\nMLS_192_ML-KEM-1024_AES256GCM_SHA384_P384",
+              "createdAt": "2025-02-28T23:44:54Z",
+              "updatedAt": "2025-03-01T00:03:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eEcOd",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "CHANGES_REQUESTED",
+          "body": "We need to agree on what hashes and aeads go with which KEMs",
+          "createdAt": "2025-02-28T23:47:12Z",
+          "updatedAt": "2025-03-01T00:06:13Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "symmetric algorithms are generally consider not practically vulnerable to PQ atttack. Maybe just delete the sentence there?",
+              "createdAt": "2025-02-28T23:47:13Z",
+              "updatedAt": "2025-03-01T00:06:13Z"
+            },
+            {
+              "originalPosition": 56,
+              "body": "```suggestion\r\nencryption, hash, and signature algorithms with the same target security level.\r\n```",
+              "createdAt": "2025-02-28T23:48:02Z",
+              "updatedAt": "2025-03-01T00:06:13Z"
+            },
+            {
+              "originalPosition": 3,
+              "body": "There is an adopted MLS WG item that is also related to ML-KEM, but doesn't define any ciphersuites.\r\n\r\n```suggestion\r\nabbrev: MLS Cipher Suites with ML-KEM\r\n```",
+              "createdAt": "2025-02-28T23:52:11Z",
+              "updatedAt": "2025-03-01T00:06:13Z"
+            },
+            {
+              "originalPosition": 127,
+              "body": "```suggestion\r\nThe values `TBDH0` and `TBDH1` refer to the code points to be assigned by IANA for\r\n```",
+              "createdAt": "2025-03-01T00:04:36Z",
+              "updatedAt": "2025-03-01T00:06:13Z"
+            },
+            {
+              "originalPosition": 131,
+              "body": "```suggestion\r\n* `TBDH0 = QSF-KEM(ML-KEM-768,P-256)-XOF(SHAKE256)-KDF(SHA3-256)`\r\n* `TBDH1 = QSF-KEM(ML-KEM-1024,P-384)-XOF(SHAKE256)-KDF(SHA3-256)`\r\n```",
+              "createdAt": "2025-03-01T00:04:48Z",
+              "updatedAt": "2025-03-01T00:06:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eEhEX",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T00:07:38Z",
+          "updatedAt": "2025-03-01T00:07:38Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "@dconnolly , do you have an opinion of SHA3 vs SHA2 for the MLS ciphersuite hash function for anyone doing QFS?",
+              "createdAt": "2025-03-01T00:07:38Z",
+              "updatedAt": "2025-03-01T00:09:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eGvqi",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "bifurcation",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T19:46:11Z",
+          "updatedAt": "2025-03-01T19:46:12Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "* The thinking on AES-256 and SHA-512 was motivated by the \"double the key/hash size\" approach to PQ for symmetric.\r\n* I don't have as strong feeling about SHA2 vs. SHA3\r\n    * On the one hand, yes, folks will have SHA3 for other reasons in some cases\r\n    * On the other hand, CNSA 2.0 still lists SHA2 as \"General Purpose\" and SHA3 as \"In Specific Applications\"\r\n    * In any case, CNSA 2.0 does forbid the 256-bit hash length\r\n* Using the full QSF expansions seems really unwieldy, and unnecessary because these are just mnemonics; the specific algorithms are detailed below.\r\n* This is just an initial stab, we can debate in the WG\r\n\r\nCounter-offer: \r\n\r\n```\r\nMLS_128_X_Wing_AES256GCM_SHA512_Ed25519\r\nMLS_128_QSF_MLKEM768_P256_AES256GCM_SHA3_512_P256\r\nMLS_192_QSF-MLKEM768_P256_AES256GCM_SHA3_512_P384\r\nMLS_128_MLKEM768_AES128GCM_SHA512_P256\r\nMLS_192_MLKEM1024_AES256GCM_SHA512_P384\r\n```",
+              "createdAt": "2025-03-01T19:46:11Z",
+              "updatedAt": "2025-03-01T19:46:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eGvsX",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "bifurcation",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T19:46:51Z",
+          "updatedAt": "2025-03-01T19:46:51Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "Disagree.  For example, CNSA 2.0 forbids AES-128.",
+              "createdAt": "2025-03-01T19:46:51Z",
+              "updatedAt": "2025-03-01T19:46:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eGvuM",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "bifurcation",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T19:47:35Z",
+          "updatedAt": "2025-03-01T19:47:36Z",
+          "comments": [
+            {
+              "originalPosition": 56,
+              "body": "```suggestion\r\nencryption, hash, and signature algorithms.\r\n```",
+              "createdAt": "2025-03-01T19:47:35Z",
+              "updatedAt": "2025-03-01T19:47:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eGvwF",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "bifurcation",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T19:48:26Z",
+          "updatedAt": "2025-03-01T19:48:26Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "Disagree.  Can't use ML-KEM without a ciphersuite.",
+              "createdAt": "2025-03-01T19:48:26Z",
+              "updatedAt": "2025-03-01T19:48:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eGwAv",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T19:55:16Z",
+          "updatedAt": "2025-03-01T19:55:16Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "I don't have a strong feeling here, but I think a lot of readers will see ML-KEM in this way and assume this is the entire MLS PQ strategy. I would spell it out to avoid confusion, not because what you wrote is inaccurate.",
+              "createdAt": "2025-03-01T19:55:16Z",
+              "updatedAt": "2025-03-01T19:55:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eGxEJ",
+          "commit": {
+            "abbreviatedOid": "d454429"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T20:21:57Z",
+          "updatedAt": "2025-03-01T20:21:57Z",
+          "comments": [
+            {
+              "originalPosition": 125,
+              "body": "```suggestion\r\n| 0xTBD1 | 0x647a  | 0x0002 | 0x0002 | SHA384 | ed25519                |\r\n| 0xTBD2 | 0xTBDH0 | 0x0002 | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |\r\n| 0xTBD3 | 0xTBDH1 | 0x0002 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |\r\n| 0xTBD4 | 0x0041  | 0x0002 | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |\r\n| 0xTBD5 | 0x0042  | 0x0002 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |\r\n```",
+              "createdAt": "2025-03-01T20:21:57Z",
+              "updatedAt": "2025-03-01T20:21:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eGxGv",
+          "commit": {
+            "abbreviatedOid": "d454429"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T20:23:02Z",
+          "updatedAt": "2025-03-01T20:23:02Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "```suggestion\r\n| TBD1 | MLS_128_X_Wing_AES256GCM_SHA384_Ed25519    |  Y  | [RFCXXXX] |\r\n| TBD2 | MLS_128_QSF-KEM(ML-KEM-768,P-256)-0xTBDH0_AES256GCM_SHA384_P256      |  Y  | [RFCXXXX] |\r\n| TBD3 | MLS_192_QSF-KEM(ML-KEM-1024,P-384)-0xTBDH1_AES256GCM_SHA384_P384     |  Y  | [RFCXXXX] |\r\n| TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256   |  Y  | [RFCXXXX] |\r\n| TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384  |  Y  | [RFCXXXX] |\r\n\r\n> Note to IANA, please replace `THDH0` and `TBDH1` in lines 2 and 3 of the table.\r\n```",
+              "createdAt": "2025-03-01T20:23:02Z",
+              "updatedAt": "2025-03-01T20:23:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eGxKI",
+          "commit": {
+            "abbreviatedOid": "5cbdd63"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T20:24:42Z",
+          "updatedAt": "2025-03-01T20:24:42Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "ok, AES256 with the CNSA consistency and Grover's",
+              "createdAt": "2025-03-01T20:24:42Z",
+              "updatedAt": "2025-03-01T20:24:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eG0xc",
+          "commit": {
+            "abbreviatedOid": "5cbdd63"
+          },
+          "author": "dconnolly",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T22:16:59Z",
+          "updatedAt": "2025-03-01T22:17:00Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "> @dconnolly , do you have an opinion of SHA3 vs SHA2 for the MLS ciphersuite hash function for anyone doing QFS?\n\nSHA3 is a secure KDF, SHA2 used on its own outside of HKDF is not",
+              "createdAt": "2025-03-01T22:17:00Z",
+              "updatedAt": "2025-03-01T22:17:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eG04C",
+          "commit": {
+            "abbreviatedOid": "5cbdd63"
+          },
+          "author": "dconnolly",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-01T22:20:30Z",
+          "updatedAt": "2025-03-01T22:20:31Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "> @dconnolly , do you have an opinion of SHA3 vs SHA2 for the MLS ciphersuite hash function for anyone doing QFS?\n\nOh I have to look up again how the MLS ciphersuite uses its parameterized hash function outside of the hybrid KEM context, which needs a secure KDF",
+              "createdAt": "2025-03-01T22:20:30Z",
+              "updatedAt": "2025-03-01T22:20:31Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
