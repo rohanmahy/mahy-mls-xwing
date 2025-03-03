@@ -5,8 +5,8 @@
 MLS                                                              R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
 Intended status: Informational                              R. L. Barnes
-Expires: 2 September 2025                                          Cisco
-                                                            1 March 2025
+Expires: 4 September 2025                                          Cisco
+                                                            3 March 2025
 
 
       ML-KEM and Hybrid Cipher Suites for Messaging Layer Security
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2025.
+   This Internet-Draft will expire on 4 September 2025.
 
 Copyright Notice
 
@@ -71,7 +71,9 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  IANA Considereations
+   2.  IANA Considerations
+     2.1.  HPKE KDF Identifiers
+     2.2.  MLS Cipher Suites
    3.  Security Considerations
    4.  Normative References
    Acknowledgments
@@ -125,7 +127,22 @@ Table of Contents
    For the pure-PQ cipher suites, we use the HPKE integration for ML-KEM
    defined in [I-D.connolly-cfrg-hpke-mlkem].
 
-2.  IANA Considereations
+2.  IANA Considerations
+
+2.1.  HPKE KDF Identifiers
+
+   This document requests that IANA add the following entry to the HPKE
+   KDF Identifiers registry.
+
+   *  Value: TBD0
+
+   *  KDF: XOF(SHAKE256)
+
+   *  Nh: 32
+
+   *  Reference: Section 3.2 of [FIPS202]
+
+2.2.  MLS Cipher Suites
 
    This document requests that IANA add the following entries to the
    "MLS Cipher Suites" registry, replacing "XXXX" with the RFC number
@@ -134,44 +151,41 @@ Table of Contents
     +=====+===========================================+===+===========+
     |Value| Name                                      |Rec| Reference |
     +=====+===========================================+===+===========+
-    |TBD1 | MLS_128_X_Wing_AES256GCM_SHA384_Ed25519   |Y  | [RFCXXXX] |
+    |TBD1 | MLS_128_X_Wing_AES256GCM_SHA384_Ed25519   |Y  | RFCXXXX   |
     +-----+-------------------------------------------+---+-----------+
-    |TBD2 | MLS_128_QSF-KEM(ML-KEM-768,P-256)-        |Y  | [RFCXXXX] |
-    |     | 0xTBDH0_AES256GCM_SHA384_P256             |   |           |
+    |TBD2 | MLS_128_QSF-KEM(ML-KEM-                   |Y  | RFCXXXX   |
+    |     | 768,P-256)_AES256GCM_SHA384_P256          |   |           |
     +-----+-------------------------------------------+---+-----------+
-    |TBD3 | MLS_192_QSF-KEM(ML-KEM-1024,P-384)-       |Y  | [RFCXXXX] |
-    |     | 0xTBDH1_AES256GCM_SHA384_P384             |   |           |
+    |TBD3 | MLS_192_QSF-KEM(ML-KEM-                   |Y  | RFCXXXX   |
+    |     | 1024,P-384)_AES256GCM_SHA384_P384         |   |           |
     +-----+-------------------------------------------+---+-----------+
-    |TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256  |Y  | [RFCXXXX] |
+    |TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256  |Y  | RFCXXXX   |
     +-----+-------------------------------------------+---+-----------+
-    |TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384 |Y  | [RFCXXXX] |
+    |TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384 |Y  | RFCXXXX   |
     +-----+-------------------------------------------+---+-----------+
 
                                   Table 1
-
-      Note to IANA, please replace THDH0 and TBDH1 in lines 2 and 3 of
-      the table.
 
    All of these cipher suites use HMAC [RFC2104] with SHA384 as their
    MAC function.  The mapping of cipher suites to HPKE primitives
    [RFC9180], HMAC hash functions, and TLS signature schemes [RFC8446]
    is as follows:
 
-   +======+=========+======+========+========+========================+
-   |Value | KEM     |KDF   | AEAD   | Hash   | Signature              |
-   +======+=========+======+========+========+========================+
-   |0xTBD1| 0x647a  |0x0002| 0x0002 | SHA384 | ed25519                |
-   +------+---------+------+--------+--------+------------------------+
-   |0xTBD2| 0xTBDH0 |0x0002| 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
-   +------+---------+------+--------+--------+------------------------+
-   |0xTBD3| 0xTBDH1 |0x0002| 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
-   +------+---------+------+--------+--------+------------------------+
-   |0xTBD4| 0x0041  |0x0002| 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
-   +------+---------+------+--------+--------+------------------------+
-   |0xTBD5| 0x0042  |0x0002| 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
-   +------+---------+------+--------+--------+------------------------+
+    +========+========+====+========+========+========================+
+    | Value  | KEM    |KDF | AEAD   | Hash   | Signature              |
+    +========+========+====+========+========+========================+
+    | 0xTBD1 | 0x647a |TBD0| 0x0002 | SHA384 | ed25519                |
+    +--------+--------+----+--------+--------+------------------------+
+    | 0xTBD2 | TBDH0  |TBD0| 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
+    +--------+--------+----+--------+--------+------------------------+
+    | 0xTBD3 | TBDH1  |TBD0| 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
+    +--------+--------+----+--------+--------+------------------------+
+    | 0xTBD4 | 0x0041 |TBD0| 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
+    +--------+--------+----+--------+--------+------------------------+
+    | 0xTBD5 | 0x0042 |TBD0| 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
+    +--------+--------+----+--------+--------+------------------------+
 
-                                 Table 2
+                                  Table 2
 
    The values TBDH0 and TBDH1 refer to the code points to be assigned by
    IANA for the following hybrid KEMs defined in
@@ -203,6 +217,11 @@ Table of Contents
 
 4.  Normative References
 
+   [FIPS202]  "SHA-3 standard :: permutation-based hash and extendable-
+              output functions", National Institute of Standards and
+              Technology (U.S.), DOI 10.6028/nist.fips.202, 2015,
+              <https://doi.org/10.6028/nist.fips.202>.
+
    [I-D.connolly-cfrg-hpke-mlkem]
               Connolly, D., "ML-KEM for HPKE", Work in Progress,
               Internet-Draft, draft-connolly-cfrg-hpke-mlkem-04, 18
@@ -229,6 +248,19 @@ Table of Contents
               (U.S.), DOI 10.6028/nist.fips.203, August 2024,
               <https://doi.org/10.6028/nist.fips.203>.
 
+   [RFC2104]  Krawczyk, H., Bellare, M., and R. Canetti, "HMAC: Keyed-
+              Hashing for Message Authentication", RFC 2104,
+              DOI 10.17487/RFC2104, February 1997,
+              <https://www.rfc-editor.org/rfc/rfc2104>.
+
+   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8446>.
+
+   [RFC9180]  Barnes, R., Bhargavan, K., Lipp, B., and C. Wood, "Hybrid
+              Public Key Encryption", RFC 9180, DOI 10.17487/RFC9180,
+              February 2022, <https://www.rfc-editor.org/rfc/rfc9180>.
+
    [RFC9420]  Barnes, R., Beurdouche, B., Robert, R., Millican, J.,
               Omara, E., and K. Cohn-Gordon, "The Messaging Layer
               Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
@@ -240,7 +272,10 @@ Table of Contents
 
 Acknowledgments
 
-   Thanks to Joël Alwen, Marta Mularczyk, and Britta Hale.
+   This work would not be possible without the hard work of the CFRG
+   Hybrid KEM design team: Aron Wussler, Bas Westerbaan, Deirdre
+   Connolly, Mike Ounsworth, Nick Sullivan, and Stephen Farrell.  Thanks
+   also to Joël Alwen, Marta Mularczyk, and Britta Hale.
 
 Authors' Addresses
 
