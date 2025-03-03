@@ -1,11 +1,11 @@
-# Messaging Layer Security Ciphersuite using XWing Key Exchange Mechanism
+# ML-KEM and Hybrid Cipher Suites for Messaging Layer Security
 
-This is the working area for the individual Internet-Draft, "Messaging Layer Security Ciphersuite using XWing Key Exchange Mechanism".
+This is the working area for the individual Internet-Draft, "ML-KEM and Hybrid Cipher Suites for Messaging Layer Security".
 
-* [Editor's Copy](https://rohanmahy.github.io/mahy-mls-xwing/#go.draft-mahy-mls-xwing.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mahy-mls-xwing)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mahy-mls-xwing)
-* [Compare Editor's Copy to Individual Draft](https://rohanmahy.github.io/mahy-mls-xwing/#go.draft-mahy-mls-xwing.diff)
+* [Editor's Copy](https://rohanmahy.github.io/mahy-mls-xwing/#go.draft-mahy-mls-pq.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mahy-mls-pq)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mahy-mls-pq)
+* [Compare Editor's Copy to Individual Draft](https://rohanmahy.github.io/mahy-mls-xwing/#go.draft-mahy-mls-pq.diff)
 
 
 ## Contributing
