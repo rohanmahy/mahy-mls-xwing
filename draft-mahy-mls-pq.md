@@ -119,15 +119,16 @@ Suites" registry, replacing "XXXX" with the RFC number assigned to this document
 
 | Value  | Name                                       | Rec | Reference |
 |:=======|:===========================================|:===:|:=========:|
-| TBD1 | MLS_128_X_Wing_AES256GCM_SHA384_Ed25519    |  Y  | [RFCXXXX] |
-| TBD2 | MLS_128_QSF-KEM(ML-KEM-768,P-256)_AES256GCM_SHA384_P256      |  Y  | [RFCXXXX] |
-| TBD3 | MLS_192_QSF-KEM(ML-KEM-1024,P-384)_AES256GCM_SHA384_P384     |  Y  | [RFCXXXX] |
-| TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256   |  Y  | [RFCXXXX] |
-| TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384  |  Y  | [RFCXXXX] |
+| TBD1 | MLS_128_X_Wing_AES256GCM_SHA384_Ed25519    |  Y  | RFCXXXX |
+| TBD2 | MLS_128_QSF-KEM(ML-KEM-768,P-256)_AES256GCM_SHA384_P256      |  Y  | RFCXXXX |
+| TBD3 | MLS_192_QSF-KEM(ML-KEM-1024,P-384)_AES256GCM_SHA384_P384     |  Y  | RFCXXXX |
+| TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256   |  Y  | RFCXXXX |
+| TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384  |  Y  | RFCXXXX |
 
-All of these cipher suites use HMAC [RFC2104] with SHA384 as their MAC function.
-The mapping of cipher suites to HPKE primitives [RFC9180], HMAC hash functions,
-and TLS signature schemes [RFC8446] is as follows:
+All of these cipher suites use HMAC {{!RFC2104}} with SHA384 as their MAC
+function.
+The mapping of cipher suites to HPKE primitives {{!RFC9180}}, HMAC hash functions,
+and TLS signature schemes {{!RFC8446}} is as follows:
 
 | Value  | KEM     | KDF    | AEAD   | Hash   | Signature              |
 |:=======|:========|:=======|:=======|:=======|:=======================|
