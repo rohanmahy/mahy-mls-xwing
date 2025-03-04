@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-02T01:16:14.888489+00:00",
+  "timestamp": "2025-03-04T01:13:05.146191+00:00",
   "repo": "rohanmahy/mahy-mls-xwing",
   "labels": [
     {
@@ -63,7 +63,7 @@
       "labels": [],
       "body": "* Refresh references, including new combiner drafts\r\n* Include a more fulsome collection of algorithm options",
       "createdAt": "2025-02-28T22:33:48Z",
-      "updatedAt": "2025-03-01T22:20:31Z",
+      "updatedAt": "2025-03-02T15:53:11Z",
       "baseRepository": "rohanmahy/mahy-mls-xwing",
       "baseRefName": "main",
       "baseRefOid": "2126295f9d0853b8ad818bc98c6088f0806c3a93",
@@ -76,7 +76,15 @@
       "mergeCommit": {
         "oid": "5a13469ff91114113bb761b094113eb56558ed90"
       },
-      "comments": [],
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "body": "Created this issue: https://github.com/cfrg/draft-irtf-cfrg-hybrid-kems/issues/8",
+          "createdAt": "2025-03-02T15:53:10Z",
+          "updatedAt": "2025-03-02T15:53:10Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOLbkcE86eEb0a",
@@ -361,8 +369,76 @@
               "updatedAt": "2025-03-01T22:20:31Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eHcUN",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T15:13:12Z",
+          "updatedAt": "2025-03-02T15:13:13Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "> > @dconnolly , do you have an opinion of SHA3 vs SHA2 for the MLS ciphersuite hash function for anyone doing QFS?\r\n> \r\n> Oh I have to look up again how the MLS ciphersuite uses its parameterized hash function outside of the hybrid KEM context, which needs a secure KDF\r\n\r\n@dconnolly \r\nMLS uses SHA256/384/512 in all currently-registered ciphersuites for generating KeyPackageRefs, ProposalRefs, membership_tag, confirmation_hash, tree_hash, etc.\r\n\r\nMLS use key derivation extensively in the Key Schedule.\r\nEach existing MLS ciphersuite has an **_implicit_** HPKE KDF algorithm as shown in [RFC 9420 Table 7](https://www.rfc-editor.org/rfc/rfc9420.html#table-7). The only IANA registrations currently are HKDF-SHA256/384/512. This is clearly **NOT**  what we want for the combiners and for plain ML-KEM. For one thing the key length is wrong if we use anything except HKDF-SHA256, and all the ML-KEM implementations will have a SHAKE library somewhere. I don't understand the combiners well enough to understand if you can just IANA register SHAKE256 as an HPKE KDF, or if all three algorithm documents (XWing, irtf-cfrg-hybrid-kems, connolly-cfrg-hpke-mlkem) should also be IANA registering one or more HPKE KDFs that are particular for their key derivation procedures.",
+              "createdAt": "2025-03-02T15:13:12Z",
+              "updatedAt": "2025-03-02T15:13:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLbkcE86eHd9O",
+          "commit": {
+            "abbreviatedOid": "af73541"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T15:46:15Z",
+          "updatedAt": "2025-03-02T15:46:15Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "OK, I think draft-irtf-cfrg-hybrid-kems needs to IANA register both `KDF(SHA3-256)` (referencing Section 6.1 of FIPS202(, and `XOF(SHAKE256)` (referencing Section 6.2 of FIPS202) in the IANA HPKE KDF registry. Anyone?\r\n\r\n> > > @dconnolly , do you have an opinion of SHA3 vs SHA2 for the MLS ciphersuite hash function for anyone doing QFS?\r\n> > \r\n> > \r\n> > Oh I have to look up again how the MLS ciphersuite uses its parameterized hash function outside of the hybrid KEM context, which needs a secure KDF\r\n> \r\n> @dconnolly MLS uses SHA256/384/512 in all currently-registered ciphersuites for generating KeyPackageRefs, ProposalRefs, membership_tag, confirmation_hash, tree_hash, etc.\r\n> \r\n> MLS use key derivation extensively in the Key Schedule. Each existing MLS ciphersuite has an **_implicit_** HPKE KDF algorithm as shown in [RFC 9420 Table 7](https://www.rfc-editor.org/rfc/rfc9420.html#table-7). The only IANA registrations currently are HKDF-SHA256/384/512. This is clearly **NOT** what we want for the combiners and for plain ML-KEM. For one thing the key length is wrong if we use anything except HKDF-SHA256, and all the ML-KEM implementations will have a SHAKE library somewhere. I don't understand the combiners well enough to understand if you can just IANA register SHAKE256 as an HPKE KDF, or if all three algorithm documents (XWing, irtf-cfrg-hybrid-kems, connolly-cfrg-hpke-mlkem) should also be IANA registering one or more HPKE KDFs that are particular for their key derivation procedures.\r\n\r\n",
+              "createdAt": "2025-03-02T15:46:15Z",
+              "updatedAt": "2025-03-02T15:46:15Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOLbkcE86NFsZq",
+      "title": "IANA register the SHAKE256 KDF",
+      "url": "https://github.com/rohanmahy/mahy-mls-xwing/pull/2",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-03T03:20:52Z",
+      "updatedAt": "2025-03-03T03:21:52Z",
+      "baseRepository": "rohanmahy/mahy-mls-xwing",
+      "baseRefName": "main",
+      "baseRefOid": "09825e9547a79395c8d0ec415620a42d8c931445",
+      "headRepository": "rohanmahy/mahy-mls-xwing",
+      "headRefName": "iana-kdf",
+      "headRefOid": "0d84fba44391f1c40d9da6cac2b8a9284b8edd10",
+      "closedAt": "2025-03-03T03:21:52Z",
+      "mergedAt": "2025-03-03T03:21:52Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "613a57c0f6f008dc6bb3adeafa604f09768504db"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
