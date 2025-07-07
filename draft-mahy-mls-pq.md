@@ -43,6 +43,7 @@ author:
 normative:
   SHS: DOI.10.6028/NIST.FIPS.180-4
   MLKEM: DOI.10.6028/NIST.FIPS.203
+  MLDSA: DOI.10.6028/NIST.FIPS.204
   FIPS202: DOI.10.6028/NIST.FIPS.202
   GCM: DOI.10.6028/NIST.SP.800-38D
 
@@ -65,13 +66,17 @@ In response to these concerns, the cryptographic community has defined "post-qua
 Symmetric algorithms can be made post-quantum secure simply by using longer keys and hashes.
 For asymmetric operations such as KEMs and signatures, entirely new algorithms are needed.
 
-In this document, we define ciphersuites that use the post-quantum secure Module-Lattice-Based KEM (ML-KEM) {{!MLKEM}} together with appropriate symmetric algorithms and traditional signature algorithms.  These cipher suites address the risk of "harvest now, decrypt later" attacks, while not taking on the additional cost of post-quantum signatures.
+In this document, we define ciphersuites that use the post-quantum secure Module-Lattice-Based KEM (ML-KEM) {{MLKEM}} together with appropriate symmetric algorithms and either traditional or post-quantum signature algorithms.
+These traditional signature cipher suites address the risk of "harvest now, decrypt later" attacks, while not taking on the additional cost of post-quantum signatures.
+The cipher suites with post-quantum signatures use only post-quantum KEMs.
 
 Following the pattern of base MLS, we define several variations, to allow for users that prefer to only use NIST-approved cryptography, users that prefer a higher security level, and users that prefer a PQ/traditional hybrid KEM over pure ML-KEM:
 
 * ML-KEM-768 + X25519 (Medium security, Non-NIST, PQ/T hybrid)
 * ML-KEM-768 + P-256 (Medium security, NIST, PQ/T hybrid)
 * ML-KEM-1024 + P-384 (High security, NIST, PQ/T hybrid)
+* ML-KEM-768 (Medium security, NIST, pure PQ KEM)
+* ML-KEM-1024 (High security, NIST, pure PQ KEM)
 * ML-KEM-768 (Medium security, NIST, pure PQ)
 * ML-KEM-1024 (High security, NIST, pure PQ)
 
@@ -80,7 +85,7 @@ HMAC {{!RFC2104}} with SHA-384 {{SHS}} as the hash function;
 and XOF(SHAKE256) (Section 3.2 of {{FIPS202}}) as the Key Derivation Function (KDF).
 
 For the PQ/T hybrid KEMs and the pure ML-KEM HPKE integration, we use the KEMs defined in {{!I-D.ietf-hpke-pq}}.
-
+The signature scheme for ML-DSA-87 {{MLDSA}} is defined in {{!I-D.ietf-tls-mldsa}}.
 
 # IANA Considerations
 
@@ -93,8 +98,10 @@ This document requests that IANA add the following entries to the "MLS Cipher Su
 | TBD1 | MLS_128_KitchenSink-KEM(ML-KEM-768,X25519)_AES256GCM_SHA384_Ed25519    |  Y  | RFCXXXX |
 | TBD2 | MLS_128_QSF-KEM(ML-KEM-768,P-256)_AES256GCM_SHA384_P256      |  Y  | RFCXXXX |
 | TBD3 | MLS_192_QSF-KEM(ML-KEM-1024,P-384)_AES256GCM_SHA384_P384     |  Y  | RFCXXXX |
-| TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256   |  Y  | RFCXXXX |
-| TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384  |  Y  | RFCXXXX |
+| TBD4 | MLS_128_ML-KEM-768_AES256GCM_SHA384_P256       |  Y  | RFCXXXX |
+| TBD5 | MLS_192_ML-KEM-1024_AES256GCM_SHA384_P384      |  Y  | RFCXXXX |
+| TBD6 | MLS_128_ML-KEM-768_AES256GCM_SHA384_ML-DSA-87  |  Y  | RFCXXXX |
+| TBD7 | MLS_192_ML-KEM-1024_AES256GCM_SHA384_ML-DSA-87 |  Y  | RFCXXXX |
 
 The mapping of cipher suites to HPKE primitives {{!I-D.ietf-hpke-hpke}}, HMAC hash functions, and TLS signature schemes {{!RFC8446}} is as follows:
 
@@ -105,8 +112,12 @@ The mapping of cipher suites to HPKE primitives {{!I-D.ietf-hpke-hpke}}, HMAC ha
 | 0xTBD3 | 0x0052  | 0x0011 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
 | 0xTBD4 | 0x0041  | 0x0011 | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
 | 0xTBD5 | 0x0042  | 0x0011 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
+| 0xTBD6 | 0x0041  | 0x0011 | 0x0002 | SHA384 | mldsa87                |
+| 0xTBD7 | 0x0042  | 0x0011 | 0x0002 | SHA384 | mldsa87                |
+
 
 The hash used for the MLS transcript hash is the one referenced in the cipher suite name. "SHA384" refers to the SHA-384 functions defined in [SHS].
+
 
 # Security Considerations
 
@@ -114,6 +125,8 @@ This ciphersuites defined in this document combine a post-quantum (or PQ/T hybri
 Cipher suites using post-quantum secure signature algorithms may be defined in the future.
 
 For security considerations related to the KEMs used in this document, please see the documents that define those KEMs {{!I-D.ietf-hpke-pq}} and {{?I-D.irtf-cfrg-hybrid-kems}}.
+
+For security considerations related to the post-quantum signature algorithms used in this document, please see {{!I-D.ietf-tls-mldsa}} and {{?I-D.ietf-lamps-dilithium-certificates}}.
 
 --- back
 
