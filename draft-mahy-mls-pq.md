@@ -44,6 +44,7 @@ normative:
   SHS: DOI.10.6028/NIST.FIPS.180-4
   MLKEM: DOI.10.6028/NIST.FIPS.203
   FIPS202: DOI.10.6028/NIST.FIPS.202
+  GCM: DOI.10.6028/NIST.SP.800-38D
 
 informative:
 
@@ -74,21 +75,14 @@ Following the pattern of base MLS, we define several variations, to allow for us
 * ML-KEM-768 (Medium security, NIST, pure PQ)
 * ML-KEM-1024 (High security, NIST, pure PQ)
 
-We use AES256 GCM as the AEAD and SHA384 as the hash function for all the cipher suites
+For all the cipher suites defined in this document, we use AES256 GCM {{GCM}} as the Authenticated Encryption with Authenticated Data (AEAD) {{!RFC5116}} algorithm;
+HMAC {{!RFC2104}} with SHA-384 {{SHS}} as the hash function;
+and XOF(SHAKE256) (Section 3.2 of {{FIPS202}}) as the Key Derivation Function (KDF).
 
-For the PQ/T hybrid cipher suites, we use the KEM combinators defined in  {{!I-D.ietf-hpke-pq}} and {{!I-D.irtf-cfrg-hybrid-kems}}.  For the pure-PQ cipher suites, we use the HPKE integration for ML-KEM defined in
-{{!I-D.connolly-cfrg-hpke-mlkem}}.
+For the PQ/T hybrid KEMs and the pure ML-KEM HPKE integration, we use the KEMs defined in {{!I-D.ietf-hpke-pq}}.
+
 
 # IANA Considerations
-
-## HPKE KDF Identifiers
-
-This document requests that IANA add the following entry to the HPKE KDF Identifiers registry.
-
-- Value: TBD0
-- KDF: XOF(SHAKE256)
-- Nh: 32
-- Reference: Section 3.2 of {{FIPS202}}
 
 ## MLS Cipher Suites
 
@@ -96,27 +90,21 @@ This document requests that IANA add the following entries to the "MLS Cipher Su
 
 | Value  | Name                                       | Rec | Reference |
 |:=======|:===========================================|:===:|:=========:|
-| TBD1 | MLS_128_X_Wing_AES256GCM_SHA384_Ed25519    |  Y  | RFCXXXX |
+| TBD1 | MLS_128_KitchenSink-KEM(ML-KEM-768,X25519)_AES256GCM_SHA384_Ed25519    |  Y  | RFCXXXX |
 | TBD2 | MLS_128_QSF-KEM(ML-KEM-768,P-256)_AES256GCM_SHA384_P256      |  Y  | RFCXXXX |
 | TBD3 | MLS_192_QSF-KEM(ML-KEM-1024,P-384)_AES256GCM_SHA384_P384     |  Y  | RFCXXXX |
 | TBD4 | MLS_128_ML_KEM_768_AES256GCM_SHA384_P256   |  Y  | RFCXXXX |
 | TBD5 | MLS_192_ML_KEM_1024_AES256GCM_SHA384_P384  |  Y  | RFCXXXX |
 
-All of these cipher suites use HMAC {{!RFC2104}} with SHA384 as their MAC function.
-The mapping of cipher suites to HPKE primitives {{!RFC9180}}, HMAC hash functions, and TLS signature schemes {{!RFC8446}} is as follows:
+The mapping of cipher suites to HPKE primitives {{!I-D.ietf-hpke-hpke}}, HMAC hash functions, and TLS signature schemes {{!RFC8446}} is as follows:
 
 | Value  | KEM     | KDF    | AEAD   | Hash   | Signature              |
 |:=======|:========|:=======|:=======|:=======|:=======================|
-| 0xTBD1 | 0x647a  | TBD0   | 0x0002 | SHA384 | ed25519                |
-| 0xTBD2 | TBDH0   | TBD0   | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
-| 0xTBD3 | TBDH1   | TBD0   | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
-| 0xTBD4 | 0x0041  | TBD0   | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
-| 0xTBD5 | 0x0042  | TBD0   | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
-
-The values `TBDH0` and `TBDH1` refer to the code points to be assigned by IANA for the following hybrid KEMs defined in {{!I-D.irtf-cfrg-hybrid-kems}}:
-
-* `TBDH0 = QSF-KEM(ML-KEM-768,P-256)-XOF(SHAKE256)-KDF(SHA3-256)`
-* `TBDH1 = QSF-KEM(ML-KEM-1024,P-384)-XOF(SHAKE256)-KDF(SHA3-256)`
+| 0xTBD1 | 0x0051  | 0x0011 | 0x0002 | SHA384 | ed25519                |
+| 0xTBD2 | 0x0050  | 0x0011 | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
+| 0xTBD3 | 0x0052  | 0x0011 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
+| 0xTBD4 | 0x0041  | 0x0011 | 0x0002 | SHA384 | ecdsa_secp256r1_sha256 |
+| 0xTBD5 | 0x0042  | 0x0011 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
 
 The hash used for the MLS transcript hash is the one referenced in the cipher suite name. "SHA384" refers to the SHA-384 functions defined in [SHS].
 
@@ -125,7 +113,7 @@ The hash used for the MLS transcript hash is the one referenced in the cipher su
 This ciphersuites defined in this document combine a post-quantum (or PQ/T hybrid) KEM with a traditional signature algorithm. As such, they are designed to provide confidentiality against quantum and classical attacks, but provide authenticity against classical attacks only.  Thus, these cipher suites do not provide full post-quantum security, only post-quantum confidentiality.
 Cipher suites using post-quantum secure signature algorithms may be defined in the future.
 
-For security considerations related to the KEMs used in this document, please see the documents that define those KEMs {{!I-D.connolly-cfrg-xwing-kem}} {{!I-D.irtf-cfrg-hybrid-kems}} {{!I-D.connolly-cfrg-hpke-mlkem}}.
+For security considerations related to the KEMs used in this document, please see the documents that define those KEMs {{!I-D.ietf-hpke-pq}} and {{?I-D.irtf-cfrg-hybrid-kems}}.
 
 --- back
 
