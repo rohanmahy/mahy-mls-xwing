@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-06T01:38:58.594488+00:00",
+  "timestamp": "2025-07-08T01:24:04.388182+00:00",
   "repo": "rohanmahy/mahy-mls-xwing",
   "labels": [
     {
@@ -49,7 +49,24 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 5,
+      "id": "I_kwDOLbkcE86_WEne",
+      "title": "Should we add ciphersuites with pure PQ KEM + signatures?",
+      "url": "https://github.com/rohanmahy/mahy-mls-xwing/issues/5",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-07T20:56:53Z",
+      "updatedAt": "2025-07-07T20:56:53Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
@@ -437,6 +454,60 @@
       "mergeCommit": {
         "oid": "613a57c0f6f008dc6bb3adeafa604f09768504db"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOLbkcE86d0p2N",
+      "title": "Reference new HPKE",
+      "url": "https://github.com/rohanmahy/mahy-mls-xwing/pull/3",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "adjust document to align with draft-ietf-hpke-pq",
+      "createdAt": "2025-07-07T20:35:49Z",
+      "updatedAt": "2025-07-07T20:36:17Z",
+      "baseRepository": "rohanmahy/mahy-mls-xwing",
+      "baseRefName": "main",
+      "baseRefOid": "afb3a103fecf27c35c229c41ac0ad037202a207f",
+      "headRepository": "rohanmahy/mahy-mls-xwing",
+      "headRefName": "reference-new-hpke",
+      "headRefOid": "6437a369fdc7503106fe8c2ffcdcc8d9bcc8c376",
+      "closedAt": "2025-07-07T20:36:17Z",
+      "mergedAt": "2025-07-07T20:36:17Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "108118c080c8e2c4dfbd8a2621c29895876ee9c2"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOLbkcE86d0yg_",
+      "title": "Add pure PQ ciphersuites with PQ sigs",
+      "url": "https://github.com/rohanmahy/mahy-mls-xwing/pull/4",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-07T20:55:57Z",
+      "updatedAt": "2025-07-07T20:55:57Z",
+      "baseRepository": "rohanmahy/mahy-mls-xwing",
+      "baseRefName": "main",
+      "baseRefOid": "108118c080c8e2c4dfbd8a2621c29895876ee9c2",
+      "headRepository": "rohanmahy/mahy-mls-xwing",
+      "headRefName": "mldsa",
+      "headRefOid": "2d6110119131da2a3d11aa55d20d90854aa34698",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
