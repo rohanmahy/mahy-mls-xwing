@@ -5,8 +5,8 @@
 MLS                                                              R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
 Intended status: Informational                              R. L. Barnes
-Expires: 8 January 2026                                            Cisco
-                                                             7 July 2025
+Expires: 11 January 2026                                           Cisco
+                                                            10 July 2025
 
 
       ML-KEM and Hybrid Cipher Suites for Messaging Layer Security
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2026.
+   This Internet-Draft will expire on 11 January 2026.
 
 Copyright Notice
 
@@ -136,8 +136,8 @@ Table of Contents
    Derivation Function (KDF).
 
    For the PQ/T hybrid KEMs and the pure ML-KEM HPKE integration, we use
-   the KEMs defined in [I-D.ietf-hpke-pq].  The signature scheme for ML-
-   DSA-87 [MLDSA] is defined in [I-D.ietf-tls-mldsa].
+   the KEMs defined in [I-D.ietf-hpke-pq].  The signature schemes for
+   ML-DSA-65 and ML-DSA-87 [MLDSA] are defined in [I-D.ietf-tls-mldsa].
 
 2.  IANA Considerations
 
@@ -166,7 +166,7 @@ Table of Contents
     |       | 1024_AES256GCM_SHA384_P384           |     |           |
     +-------+--------------------------------------+-----+-----------+
     | TBD6  | MLS_128_ML-KEM-                      | Y   | RFCXXXX   |
-    |       | 768_AES256GCM_SHA384_ML-DSA-87       |     |           |
+    |       | 768_AES256GCM_SHA384_ML-DSA-65       |     |           |
     +-------+--------------------------------------+-----+-----------+
     | TBD7  | MLS_192_ML-KEM-                      | Y   | RFCXXXX   |
     |       | 1024_AES256GCM_SHA384_ML-DSA-87      |     |           |
@@ -191,7 +191,7 @@ Table of Contents
     +------+------+--------+--------+--------+------------------------+
     |0xTBD5|0x0042| 0x0011 | 0x0002 | SHA384 | ecdsa_secp384r1_sha384 |
     +------+------+--------+--------+--------+------------------------+
-    |0xTBD6|0x0041| 0x0011 | 0x0002 | SHA384 | mldsa87                |
+    |0xTBD6|0x0041| 0x0011 | 0x0002 | SHA384 | mldsa65                |
     +------+------+--------+--------+--------+------------------------+
     |0xTBD7|0x0042| 0x0011 | 0x0002 | SHA384 | mldsa87                |
     +------+------+--------+--------+--------+------------------------+
@@ -204,14 +204,15 @@ Table of Contents
 
 3.  Security Considerations
 
-   This ciphersuites defined in this document combine a post-quantum (or
-   PQ/T hybrid) KEM with a traditional signature algorithm.  As such,
-   they are designed to provide confidentiality against quantum and
-   classical attacks, but provide authenticity against classical attacks
-   only.  Thus, these cipher suites do not provide full post-quantum
-   security, only post-quantum confidentiality.  Cipher suites using
-   post-quantum secure signature algorithms may be defined in the
-   future.
+   The first five ciphersuites defined in this document combine a post-
+   quantum (or PQ/T hybrid) KEM with a traditional signature algorithm.
+   As such, they are designed to provide confidentiality against quantum
+   and classical attacks, but provide authenticity against classical
+   attacks only.  Thus, these cipher suites do not provide full post-
+   quantum security, only post-quantum confidentiality.
+
+   The last two cipher suites also use post-quantum signature
+   algorithms.
 
    For security considerations related to the KEMs used in this
    document, please see the documents that define those KEMs
@@ -301,11 +302,11 @@ Table of Contents
               lamps-dilithium-certificates-12>.
 
    [I-D.irtf-cfrg-hybrid-kems]
-              Connolly, D., "Hybrid PQ/T Key Encapsulation Mechanisms",
-              Work in Progress, Internet-Draft, draft-irtf-cfrg-hybrid-
-              kems-03, 25 February 2025,
+              Connolly, D. and R. Barnes, "Hybrid PQ/T Key Encapsulation
+              Mechanisms", Work in Progress, Internet-Draft, draft-irtf-
+              cfrg-hybrid-kems-04, 7 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              hybrid-kems-03>.
+              hybrid-kems-04>.
 
 Acknowledgments
 
