@@ -3,14 +3,14 @@
 
 
 MLS                                                              R. Mahy
-Internet-Draft                            Rohan Mahy Consulting Services
+Internet-Draft                                                          
 Intended status: Informational                              R. L. Barnes
-Expires: 8 January 2026                                            Cisco
-                                                             7 July 2025
+Expires: 12 January 2026                                           Cisco
+                                                            11 July 2025
 
 
       ML-KEM and Hybrid Cipher Suites for Messaging Layer Security
-                        draft-mahy-mls-pq-latest
+                 draft-ietf-mls-pq-ciphersuites-latest
 
 Abstract
 
@@ -26,8 +26,10 @@ About This Document
 
    This note is to be removed before publishing as an RFC.
 
-   Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-mahy-mls-pq/.
+   The latest revision of this draft can be found at
+   https://mlswg.github.io/mls-pq-ciphersuites/#go.draft-ietf-mls-pq-
+   ciphersuites.html.  Status information for this document may be found
+   at https://datatracker.ietf.org/doc/draft-ietf-mls-pq-ciphersuites/.
 
    Discussion of this document takes place on the MLS Working Group
    mailing list (mailto:mls@ietf.org), which is archived at
@@ -35,7 +37,7 @@ About This Document
    https://www.ietf.org/mailman/listinfo/mls/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/rohanmahy/mahy-mls-xwing/.
+   https://github.com/mlswg/mls-pq-ciphersuites/.
 
 Status of This Memo
 
@@ -52,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2026.
+   This Internet-Draft will expire on 12 January 2026.
 
 Copyright Notice
 
@@ -257,11 +259,11 @@ Table of Contents
 4.2.  Informative References
 
    [I-D.irtf-cfrg-hybrid-kems]
-              Connolly, D., "Hybrid PQ/T Key Encapsulation Mechanisms",
-              Work in Progress, Internet-Draft, draft-irtf-cfrg-hybrid-
-              kems-03, 25 February 2025,
+              Connolly, D. and R. Barnes, "Hybrid PQ/T Key Encapsulation
+              Mechanisms", Work in Progress, Internet-Draft, draft-irtf-
+              cfrg-hybrid-kems-04, 7 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              hybrid-kems-03>.
+              hybrid-kems-04>.
 
 Acknowledgments
 
@@ -273,7 +275,6 @@ Acknowledgments
 Authors' Addresses
 
    Rohan Mahy
-   Rohan Mahy Consulting Services
    Email: rohan.ietf@gmail.com
 
 
