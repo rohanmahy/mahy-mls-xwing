@@ -2,16 +2,16 @@
 
 This is the working area for the individual Internet-Draft, "ML-KEM and Hybrid Cipher Suites for Messaging Layer Security".
 
-* [Editor's Copy](https://rohanmahy.github.io/mahy-mls-xwing/#go.draft-mahy-mls-pq.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mahy-mls-pq)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mahy-mls-pq)
-* [Compare Editor's Copy to Individual Draft](https://rohanmahy.github.io/mahy-mls-xwing/#go.draft-mahy-mls-pq.diff)
+* [Editor's Copy](https://mlswg.github.io/mls-pq-ciphersuites/#go.draft-ietf-mls-pq-ciphersuites.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-mls-pq-ciphersuites)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-ciphersuites)
+* [Compare Editor's Copy to Individual Draft](https://mlswg.github.io/mls-pq-ciphersuites/#go.draft-ietf-mls-pq-ciphersuites.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/rohanmahy/mahy-mls-xwing/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/mlswg/mls-pq-ciphersuites/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
