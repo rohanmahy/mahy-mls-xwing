@@ -1,7 +1,7 @@
 ---
 title: ML-KEM and Hybrid Cipher Suites for Messaging Layer Security
 abbrev: MLS Cipher Suites with ML-KEM
-docname: draft-mahy-mls-pq-latest
+docname: draft-ietf-mls-pq-ciphersuites-latest
 ipr: trust200902
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"area: art
 workgroup: MLS
@@ -26,13 +26,13 @@ venue:
   type: Working Group
   mail: mls@ietf.org
   arch: https://mailarchive.ietf.org/arch/browse/mls/
-  github: rohanmahy/mahy-mls-xwing/
-#  latest: https://github.com/rohanmahy/mahy-mls-xwing/latest
+  github: mlswg/mls-pq-ciphersuites/
+  latest: https://mlswg.github.io/mls-pq-ciphersuites/#go.draft-ietf-mls-pq-ciphersuites.html
 
 author:
  -  ins: R. Mahy
     name: Rohan Mahy
-    organization: Rohan Mahy Consulting Services
+    organization:
     email: rohan.ietf@gmail.com
  -  ins: R.L. Barnes
     name: Richard L. Barnes
